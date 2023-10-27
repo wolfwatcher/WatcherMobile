@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.reactmobile"
+    namespace "com.watchermobile"
     defaultConfig {
-        applicationId "com.reactmobile"
+        applicationId "com.watchermobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

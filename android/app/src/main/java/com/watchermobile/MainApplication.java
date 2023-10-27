@@ -1,4 +1,4 @@
-package com.reactmobile;
+package com.watchermobile;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
