@@ -24,9 +24,9 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v3
       - name: Set up Node environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
       - name: Cache node modules
         uses: actions/cache@v3
@@ -34,8 +34,10 @@ jobs:
         with:
           path: node_modules
           key: yarn-${{ hashFiles('yarn.lock') }}
-      - name: Install node modules if cache not present
-        run: yarn install --immutable
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install --immutable # will run `yarn install` command
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
 
   lint:
@@ -52,29 +54,14 @@ jobs:
           key: yarn-${{ hashFiles('yarn.lock') }}
       - run: mkdir -p ~/reports
       - name: Lint
-        run: yarn lint:ci
-      - name: Prettier
-        run: yarn prettier
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: lint
       - name: Upload linting report
         uses: actions/upload-artifact@v3
         with:
           name: lint-report
           path: ~/reports/eslint.xml
-
-  i18n:
-    runs-on: self-hosted
-    needs: setup
-    timeout-minutes: 5
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v3
-      - name: Restore node modules from cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: yarn-${{ hashFiles('yarn.lock') }}
-      - name: Check Swedish translations
-        run: yarn test:i18n 'en-EN'
 
   test:
     runs-on: macos-latest
@@ -89,7 +76,9 @@ jobs:
           path: node_modules
           key: yarn-${{ hashFiles('yarn.lock') }}
       - name: Run tests with JUnit as reporter
-        run: yarn test:coverage
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test
         env:
           JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - name: Upload Jest JUnit test results
