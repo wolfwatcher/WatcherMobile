@@ -1,11 +1,9 @@
 name: Build check
-#
-# Branch (Ignoring) [m   ain]
+
+# Branch (Ignoring) [main]
 # - Build app assets
 # |-- Lint project
-# |-- Check i18n string
 # |-- Run Tests
-#
 
 on:
   push:
@@ -17,7 +15,7 @@ on:
 
 jobs:
   setup:
-    name: Setup code and environment needed for linting, translations and tests
+    name: Setup code and environment needed for linting and tests
     runs-on: self-hosted
     timeout-minutes: 5
     steps:
