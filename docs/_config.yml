@@ -21,7 +21,7 @@
 title: Watcher
 email: sales@wolf-watcher.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Le compagnon cinématographique du futur
+  Watcher est votre compagnon de poche, il vous aidera à trouver des contenus cinématographiques exclusifs selon tes préférences, plateformes et habitudes de visionnage.
 domain: "wolfwatcher.github.io"
 baseurl: "/WatcherMobile/" # the subpath of your site, e.g. /blog
 url: "https://wolfwatcher.github.io" # the base hostname & protocol for your site, e.g. http://example.com
