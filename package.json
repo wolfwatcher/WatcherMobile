@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.23.1",
-    "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-masked-view/masked-view": "^0.3.1",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
     "@reduxjs/toolkit": "^2.0.1",
@@ -20,7 +20,7 @@
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-hook-form": "^7.49.2",
-    "react-native": "0.73.4",
+    "react-native": "0.73.6",
     "react-native-bootsplash": "^5.4.1",
     "react-native-bouncy-checkbox": "^3.0.7",
     "react-native-config": "^1.5.1",
