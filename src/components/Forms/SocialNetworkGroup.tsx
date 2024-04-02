@@ -1,81 +1,96 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Alert, Linking, View, ViewProps} from 'react-native';
 import {SocialNetworkButton} from 'components';
 import {DiscordIcon, GoogleIcon} from 'assets/icons';
 import {supabase} from 'services/supabase.ts';
+import {Provider} from "@supabase/supabase-js";
+import {useAppDispatch} from "hooks";
+import {login} from "services/auth.ts";
 
-interface SocialNetworkGroupProps extends ViewProps {}
+interface SocialNetworkGroupProps extends ViewProps {
+}
+
+const useInitialURL = () => {
+    const [url, setUrl] = useState<string | undefined>();
+    const [processing, setProcessing] = useState(true);
+
+    useEffect(() => {
+        const getUrlAsync = async () => {
+            // Get the deep link used to open the app
+            const initialUrl = await Linking.getInitialURL();
+
+            // The setTimeout is just for testing purpose
+            setTimeout(() => {
+                setUrl(initialUrl ?? "");
+                setProcessing(false);
+            }, 1000);
+        };
+
+        getUrlAsync();
+    }, []);
+
+    return {url, processing};
+};
 
 const SocialNetworkGroup: FC<SocialNetworkGroupProps> = props => {
-  //const dispatch = useAppDispatch();
+    const {url: initialUrl, processing} = useInitialURL();
+    const linking = "com.watchermobile://login"
+    const dispatch = useAppDispatch();
 
-  const handleGoogle = async () => {
-    const {data, error} = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-        },
-      },
-    });
+    const handleProvider = async (provider: Provider, options?: {
+        redirectTo?: string | undefined,
+        scopes?: string | undefined,
+        queryParams?: { [p: string]: string } | undefined,
+        skipBrowserRedirect?: boolean | undefined
+    } | undefined) => {
+        const {data, error} = await supabase.auth.signInWithOAuth({
+            provider: provider,
+            options: options
+        });
 
-    console.log(data);
+        if (error) {
+            Alert.alert(error.message);
+            throw error;
+        }
 
-    if (error) {
-      Alert.alert(error.message);
-      return;
-    } else {
-      console.log(data);
-      Linking.openURL(data.url);
-      return 'success';
-    }
+        const res = await Linking.openURL(data.url);
+        console.log(res)
 
-    /*dispatch(
-      login({
-        token: 'allo',
-        refreshToken: 'random',
-      }),
-    );*/
-  };
+        if(res.type === "success") {
+            const { url } = res;
+            console.log(url)
+        }
 
-  const handleDiscord = async () => {
-    const {data, error} = await supabase.auth.signInWithOAuth({
-      provider: 'discord',
-    });
+        /*dispatch(
+          login({
+            token: 'allo',
+            refreshToken: 'random',
+          }),
+        );*/
+    };
 
-    console.log(data);
-
-    if (error) {
-      Alert.alert(error.message);
-      return;
-    } else {
-      console.log(data);
-      Linking.openURL(data.url);
-      return 'success';
-    }
-
-    /*dispatch(
-      login({
-        token: 'allo',
-        refreshToken: 'random',
-      }),
-    );*/
-  };
-
-  return (
-    <View className="flex-row gap-9" {...props}>
-      <SocialNetworkButton onPress={handleGoogle}>
-        <GoogleIcon width={24} height={24} />
-      </SocialNetworkButton>
-      <SocialNetworkButton onPress={handleDiscord}>
-        <DiscordIcon width={24} height={24} />
-      </SocialNetworkButton>
-      {/*<SocialNetworkButton>
+    return (
+        <View className="flex-row gap-9" {...props}>
+            <SocialNetworkButton onPress={() => handleProvider("google", {
+                queryParams: {
+                    access_type: 'offline',
+                    prompt: 'consent'
+                },
+                redirectTo: linking,
+                skipBrowserRedirect: true
+            })}>
+                <GoogleIcon width={24} height={24}/>
+            </SocialNetworkButton>
+            <SocialNetworkButton onPress={() => handleProvider("discord", {
+                redirectTo: linking
+            })}>
+                <DiscordIcon width={24} height={24}/>
+            </SocialNetworkButton>
+            {/*<SocialNetworkButton>
         <FacebookIcon width={24} height={24} />
       </SocialNetworkButton>*/}
-    </View>
-  );
+        </View>
+    );
 };
 
 export default SocialNetworkGroup;
