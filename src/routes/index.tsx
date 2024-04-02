@@ -1,11 +1,11 @@
 import React from 'react';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
-import AppStack, {AppStackParamList} from 'routes/AppStack';
-import AuthStack from 'routes/AuthStack';
+import AppStack, {AppStackParamList} from '@/routes/AppStack';
+import AuthStack from '@/routes/AuthStack';
 import {SafeAreaView} from 'react-native';
-import {useAppSelector} from 'hooks';
-import {AuthStackParamList, RegisterStackParamList} from 'types';
-import {colors} from 'styles/theme';
+import {useAppSelector} from '@/hooks';
+import {AuthStackParamList, RegisterStackParamList} from '@/types';
+import {colors} from '@/styles/theme';
 
 // Type definitions for useNavigatio and stuff
 declare global {

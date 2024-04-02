@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer, PURGE} from 'redux-persist';
-import {login as loginRequest} from 'services/auth';
+import {login as loginRequest} from '@/services/auth';
 
 type AuthState = {
   token: string | null;

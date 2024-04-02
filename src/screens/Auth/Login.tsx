@@ -1,6 +1,6 @@
 import React from 'react';
-import {LoginForm, Page, SocialNetworkGroup, Text} from 'components';
-import {WatcherIcon} from 'assets/icons';
+import {LoginForm, Page, SocialNetworkGroup, Text} from '@/components';
+import {WatcherIcon} from '@/assets/icons';
 
 const LoginScreen = () => {
   return (

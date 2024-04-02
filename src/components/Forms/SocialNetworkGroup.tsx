@@ -1,11 +1,11 @@
 import React, {FC, useEffect, useState} from 'react';
 import {Alert, Linking, View, ViewProps} from 'react-native';
-import {SocialNetworkButton} from 'components';
-import {DiscordIcon, GoogleIcon} from 'assets/icons';
-import {supabase} from 'services/supabase.ts';
+import {SocialNetworkButton} from '@/components';
+import {DiscordIcon, GoogleIcon} from '@/assets/icons';
+import {supabase} from '@/services/supabase';
 import {Provider} from "@supabase/supabase-js";
-import {useAppDispatch} from "hooks";
-import {login} from "services/auth.ts";
+import {useAppDispatch} from "@/hooks";
+import {login} from "@/services/auth";
 
 interface SocialNetworkGroupProps extends ViewProps {
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {LoginScreen} from 'screens';
-import RegisterStack from 'routes/RegisterStack';
-import {AuthStackParamList} from 'types';
+import {LoginScreen} from '@/screens';
+import RegisterStack from '@/routes/RegisterStack';
+import {AuthStackParamList} from '@/types';
 
 const Stack = createStackNavigator<AuthStackParamList>();
 

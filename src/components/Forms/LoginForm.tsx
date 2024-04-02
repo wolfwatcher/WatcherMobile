@@ -1,10 +1,10 @@
 import React, {FC, useState} from 'react';
-import {Button, Link, Text, TextInput} from 'components';
+import {Button, Link, Text, TextInput} from '@/components';
 import {Alert, View, ViewProps} from 'react-native';
-import {useAppDispatch} from 'hooks';
-import {login} from 'store/slices/authSlice';
+import {useAppDispatch} from '@/hooks';
+import {login} from '@/store/slices/authSlice';
 import {useNavigation} from '@react-navigation/native';
-import {supabase} from 'services/supabase.ts';
+import {supabase} from '@/services';
 
 interface LoginFormProps extends ViewProps {}
 

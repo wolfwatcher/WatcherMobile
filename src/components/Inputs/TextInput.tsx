@@ -3,7 +3,7 @@ import {
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
 } from 'react-native';
-import {colors} from 'styles/theme';
+import {colors} from '@/styles/theme';
 
 interface TextInputProps extends RNTextInputProps {}
 

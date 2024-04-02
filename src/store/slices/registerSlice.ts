@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer} from 'redux-persist';
-import {RegisterStateType} from 'types';
-import {registerSteps} from 'routes/RegisterStack.tsx';
+import {RegisterStateType} from '@/types';
+import {registerSteps} from '@/routes/RegisterStack';
 
 const initialState: RegisterStateType = {
   progression: {

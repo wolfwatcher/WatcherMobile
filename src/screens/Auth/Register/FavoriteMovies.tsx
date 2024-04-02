@@ -1,9 +1,9 @@
 import React, {FC, useState} from 'react';
-import {Button, Page, Text, TMDBContentCheckbox} from 'components';
+import {Button, Page, Text, TMDBContentCheckbox} from '@/components';
 import {FlatList, ListRenderItem} from 'react-native';
-import {MOVIES} from 'data/constants.ts';
-import {RegisterStackParamList, TMDBMovieType} from 'types';
-import {FavoriteMoviesSvg} from 'assets/images';
+import {MOVIES} from '@/data/constants';
+import {RegisterStackParamList, TMDBMovieType} from '@/types';
+import {FavoriteMoviesSvg} from '@/assets/images';
 import {NativeStackScreenProps} from 'react-native-screens/native-stack';
 
 const FavoriteMovies: FC<

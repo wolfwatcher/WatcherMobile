@@ -1,13 +1,13 @@
 import {NativeStackScreenProps} from 'react-native-screens/native-stack';
 
 import React, {FC, useState} from 'react';
-import {Button, Page, Text} from 'components';
+import {Button, Page, Text} from '@/components';
 import {View} from 'react-native';
-import {useAppDispatch, useAppSelector} from 'hooks';
-import {progress} from 'store/slices/registerSlice.ts';
+import {useAppDispatch, useAppSelector} from '@/hooks';
+import {progress} from '@/store/slices/registerSlice';
 import DatePicker from 'react-native-date-picker';
-import {RegisterStackParamList} from 'types';
-import {OnboardingAgeSvg} from 'assets/images';
+import {RegisterStackParamList} from '@/types';
+import {OnboardingAgeSvg} from '@/assets/images';
 
 const Birthdate: FC<
   NativeStackScreenProps<RegisterStackParamList, 'BirthdateScreen'>
@@ -36,7 +36,6 @@ const Birthdate: FC<
         date={date}
         onDateChange={setDate}
         mode="date"
-        androidVariant="nativeAndroid"
       />
       <Button className="mt-6" variant="primary" onPress={handleNext}>
         <Text>Suivant</Text>

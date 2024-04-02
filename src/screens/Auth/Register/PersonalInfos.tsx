@@ -1,18 +1,18 @@
 import React, {FC} from 'react';
-import {Button, Page, Text} from 'components';
+import {Button, Page, Text} from '@/components';
 import {StyleSheet, View} from 'react-native';
-import {RegisterStackParamList} from 'types';
-import {PersonalInfosSvg} from 'assets/images';
+import {RegisterStackParamList} from '@/types';
+import {PersonalInfosSvg} from '@/assets/images';
 import {NativeStackScreenProps} from 'react-native-screens/native-stack';
-import {AppleIcon, FacebookIcon, GoogleIcon} from 'assets/icons';
-import MailIcon from '../../../assets/icons/MailIcon.tsx';
+import {AppleIcon, FacebookIcon, GoogleIcon} from '@/assets/icons';
+import MailIcon from '@/assets/icons/MailIcon';
 
 const PersonalInfos: FC<
   NativeStackScreenProps<RegisterStackParamList, 'PersonalInfosScreen'>
 > = ({navigation}) => {
   const handleNext = (choice: string) => {
     if (choice === 'mail') {
-      navigation.navigate('PersonalInfosDetailScreen');
+      navigation.navigate('SubscriptionsScreen');
       return;
     }
     // @TODO proper logic

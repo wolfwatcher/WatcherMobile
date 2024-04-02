@@ -24,8 +24,4 @@ const Button: FC<ButtonProps> = ({children, variant, ...props}) => {
     </TouchableOpacity>
   );
 };
-
-// The styled function can take multiple arguments
-// but seems to be unable to find the proper declaration
-// noinspection TypeScriptValidateTypes
 export default Button;

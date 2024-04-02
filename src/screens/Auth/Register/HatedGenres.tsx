@@ -1,9 +1,9 @@
 import React, {FC, useState} from 'react';
-import {BoxCheckbox, Button, Page, Text} from 'components';
+import {BoxCheckbox, Button, Page, Text} from '@/components';
 import {FlatList, ListRenderItem} from 'react-native';
-import {GenreItemType, RegisterStackParamList} from 'types';
-import {GENRES} from 'data/constants.ts';
-import {HatedGenresSvg} from 'assets/images';
+import {GenreItemType, RegisterStackParamList} from '@/types';
+import {GENRES} from '@/data/constants';
+import {HatedGenresSvg} from '@/assets/images';
 import {NativeStackScreenProps} from 'react-native-screens/native-stack';
 
 const HatedGenres: FC<

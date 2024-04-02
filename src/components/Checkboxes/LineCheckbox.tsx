@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {colors} from 'styles/theme';
+import {colors} from '@/styles/theme';
 
 interface LineCheckboxProps extends ViewProps {
   text: string;

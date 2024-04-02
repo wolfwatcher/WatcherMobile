@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
-import {Button, Page, Text} from 'components';
+import {Button, Page, Text, BoxCheckbox} from '@/components';
 import {FlatList, Image, ListRenderItem, StyleSheet, View} from 'react-native';
-import {RegisterStackParamList, SubscriptionType} from 'types';
+import {RegisterStackParamList, SubscriptionType} from '@/types';
 import {
   AppleTVSvg,
   CrunchyrollSvg,
@@ -9,10 +9,9 @@ import {
   NetflixSvg,
   PrimeVideoSvg,
   SubscriptionsSvg,
-} from 'assets/images';
-import BoxCheckbox from 'components/Checkboxes/BoxCheckbox.tsx';
+} from '@/assets/images';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {colors} from 'styles/theme';
+import {colors} from '@/styles/theme';
 import {NativeStackScreenProps} from 'react-native-screens/native-stack';
 
 const SUBSCRIPTIONS: SubscriptionType[] = [
@@ -39,7 +38,7 @@ const SUBSCRIPTIONS: SubscriptionType[] = [
       <Image
         width={70}
         height={20}
-        source={require('assets/images/mycanal.png')}
+        source={require('@/assets/images/mycanal.png')}
       />
     ),
   },

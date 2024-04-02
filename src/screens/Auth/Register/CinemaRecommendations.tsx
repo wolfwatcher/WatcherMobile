@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
-import {Button, Page, Text} from 'components';
+import {Button, Page, Text} from '@/components';
 import {View} from 'react-native';
-import {RegisterStackParamList} from 'types';
-import {CinemaRecommendationsSvg} from 'assets/images';
+import {RegisterStackParamList} from '@/types';
+import {CinemaRecommendationsSvg} from '@/assets/images';
 import {NativeStackScreenProps} from 'react-native-screens/native-stack';
 
 const CinemaRecommendations: FC<

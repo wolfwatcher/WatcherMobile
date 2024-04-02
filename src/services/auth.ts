@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import client from 'helpers/api';
-import {ApiError, AuthResponse, LoginParams} from 'types';
+import client from '@/helpers/api';
+import {ApiError, AuthResponse, LoginParams} from '@/types';
 
 export const login = createAsyncThunk<
   AuthResponse,

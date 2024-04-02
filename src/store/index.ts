@@ -8,7 +8,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist';
-import reducers from 'store/reducers';
+import reducers from '@/store/reducers';
 
 const rootReducer = combineReducers(reducers);
 
@@ -23,9 +23,9 @@ export const store = configureStore({
 });
 
 // Hot reloading reducers, seems broken
-if (process.env.NODE_ENV !== 'production' && module.hot) {
-  module.hot.accept(() => store.replaceReducer(combineReducers(reducers)));
-}
+// if (process.env.NODE_ENV !== 'production' && module.hot) {
+//   module.hot.accept(() => store.replaceReducer(combineReducers(reducers)));
+// }
 
 export const persistor = persistStore(store);
 

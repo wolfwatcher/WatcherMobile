@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Page, Text} from 'components';
-import {useAppDispatch} from 'hooks';
-import {logout} from 'store/slices/authSlice';
-import {supabase} from 'services/supabase';
+import {Button, Page, Text} from '@/components';
+import {useAppDispatch} from '@/hooks';
+import {logout} from '@/store/slices/authSlice';
+import {supabase} from '@/services/supabase';
 
 const HomeScreen = () => {
   const dispatch = useAppDispatch();

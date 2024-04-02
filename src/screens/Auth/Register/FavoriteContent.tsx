@@ -1,9 +1,9 @@
 import React, {FC, useState} from 'react';
-import {Button, LineCheckbox, Page, Text} from 'components';
+import {Button, LineCheckbox, Page, Text} from '@/components';
 import {View} from 'react-native';
-import {FavoriteContentSvg} from 'assets/images';
+import {FavoriteContentSvg} from '@/assets/images';
 import {NativeStackScreenProps} from 'react-native-screens/native-stack';
-import {RegisterStackParamList} from 'types';
+import {RegisterStackParamList} from '@/types';
 
 const FavoriteContent: FC<
   NativeStackScreenProps<RegisterStackParamList, 'FavoriteContentScreen'>

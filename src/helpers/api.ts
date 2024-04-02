@@ -5,9 +5,8 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import Config from 'react-native-config';
-import {store} from 'store';
-import {ApiError} from 'types';
+import {store} from '@/store';
+import {ApiError} from '@/types';
 
 enum StatusCode {
   Unauthorized = 401,
@@ -17,7 +16,7 @@ enum StatusCode {
 }
 
 const defaultOptions: Partial<AxiosRequestConfig> = {
-  baseURL: Config.API_URL,
+  baseURL: process.env.API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
