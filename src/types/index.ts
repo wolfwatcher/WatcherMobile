@@ -4,7 +4,6 @@ import {NativeStackScreenProps} from 'react-native-screens/native-stack';
 
 export type RegisterStepType = {
   name: keyof RegisterStackParamList;
-  component: FC<NativeStackScreenProps<RegisterStackParamList, any>>;
 };
 
 // === API ===
@@ -79,14 +78,4 @@ export type RegisterStackParamList = {
 export type LoginParams = {
   email: string;
   password: string;
-};
-
-// Props
-
-// === Redux ===
-export type RegisterStateType = {
-  progression: {
-    steps: number;
-    step: number;
-  };
 };

@@ -1,20 +1,30 @@
 import React, {FC} from 'react';
 import {
-  TextInput as RNTextInput,
-  TextInputProps as RNTextInputProps,
+    StyleSheet,
+    TextInput as RNTextInput,
+    TextInputProps as RNTextInputProps,
 } from 'react-native';
 import {colors} from '@/styles/theme';
 
-interface TextInputProps extends RNTextInputProps {}
+interface TextInputProps extends RNTextInputProps {
+}
 
-const TextInput: FC<TextInputProps> = ({...props}) => {
-  return (
-    <RNTextInput
-      className="font-avenir rounded-lg bg-white text-black p-2"
-      {...props}
-      placeholderTextColor={colors.rabbit}
-    />
-  );
+const TextInput: FC<TextInputProps> = ({style, ...props}) => {
+    return (
+        <RNTextInput style={[styles.input, style]} {...props} placeholderTextColor={colors.rabbit}
+        />
+    );
 };
 
-export default TextInput;
+const styles = StyleSheet.create({
+    input: {
+        backgroundColor: "white",
+        fontFamily: "avenir",
+        paddingHorizontal: 32,
+        paddingVertical: 6,
+        color: "black",
+        borderRadius: 10
+    }
+})
+
+export default TextInput

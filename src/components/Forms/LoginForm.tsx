@@ -1,16 +1,18 @@
+import "@/../global.css"
+
 import React, {FC, useState} from 'react';
 import {Button, Link, Text, TextInput} from '@/components';
 import {Alert, View, ViewProps} from 'react-native';
 import {useAppDispatch} from '@/hooks';
 import {login} from '@/store/slices/authSlice';
-import {useNavigation} from '@react-navigation/native';
 import {supabase} from '@/services';
+import {useRouter} from "expo-router";
 
 interface LoginFormProps extends ViewProps {}
 
 const LoginForm: FC<LoginFormProps> = ({...props}) => {
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,7 +36,7 @@ const LoginForm: FC<LoginFormProps> = ({...props}) => {
   };
 
   const handleRegister = () => {
-    navigation.navigate('Register');
+    router.navigate('/(auth)/register');
   };
 
   return (

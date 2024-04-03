@@ -2,7 +2,8 @@ import React, {FC} from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {TMDBMovieType, TMDBSerieType} from '@/types';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {Image, Text} from '@/components';
+import Text from '@/components/Texts/Text';
+import Image from '@/components/Images/Image'
 import HeartIcon from '@/assets/icons/HeartIcon';
 import {colors} from '@/styles/theme';
 
@@ -37,7 +38,7 @@ const TMDBContentCheckbox: FC<TMDBContentCheckboxProps> = ({
         <View className="flex flex-row">
           <Image
             style={{width: 44, height: 64, marginRight: 8}}
-            source={{uri: process.env.TMDB_POSTER_URL + item.poster_path}}
+            source={{uri: process.env.EXPO_PUBLIC_TMDB_POSTER_URL + item.poster_path}}
           />
           <View className="flex justify-around">
             <Text className="font-bold">{getTitle()}</Text>

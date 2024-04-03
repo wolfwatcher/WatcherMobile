@@ -2,11 +2,10 @@ import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
+  AxiosResponse, InternalAxiosRequestConfig,
 } from 'axios';
-import {store} from '@/store';
 import {ApiError} from '@/types';
+import {store} from "@/store/configureStore";
 
 enum StatusCode {
   Unauthorized = 401,
@@ -15,22 +14,22 @@ enum StatusCode {
   InternalServerError = 500,
 }
 
-const defaultOptions: Partial<AxiosRequestConfig> = {
-  baseURL: process.env.API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  timeout: 10000,
-};
-
-const injectToken = (
-  config: InternalAxiosRequestConfig,
+export const injectToken = (
+    config: InternalAxiosRequestConfig,
 ): InternalAxiosRequestConfig => {
   const token = store.getState().auth.token;
   if (token !== null) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
+};
+
+const defaultOptions: Partial<AxiosRequestConfig> = {
+  baseURL: process.env.API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  timeout: 10000,
 };
 
 class ApiClient {

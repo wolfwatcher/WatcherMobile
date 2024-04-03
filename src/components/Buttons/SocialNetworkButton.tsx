@@ -1,3 +1,5 @@
+import "@/../global.css"
+
 import React, {FC} from 'react';
 import {TouchableOpacity, TouchableOpacityProps} from 'react-native';
 

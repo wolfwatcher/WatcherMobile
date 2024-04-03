@@ -12,9 +12,5 @@ export {default as BoxCheckbox} from './Checkboxes/BoxCheckbox';
 export {default as LineCheckbox} from './Checkboxes/LineCheckbox';
 export {default as TMDBContentCheckbox} from './Checkboxes/TMDBContentCheckbox';
 
-// Forms
-export {default as LoginForm} from './Forms/LoginForm';
-export {default as SocialNetworkGroup} from './Forms/SocialNetworkGroup';
-
 // Images
 export {default as Image} from './Images/Image';

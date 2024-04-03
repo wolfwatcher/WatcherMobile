@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textStyle: {
-    color: colors.white,
+    color: colors.shark,
     textDecorationLine: 'none',
   },
 });
