@@ -1,4 +1,4 @@
-import '@/../global.css'
+import '@/../global.css';
 import React, {FC} from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 
@@ -15,9 +15,9 @@ const Page: FC<PageProps> = ({style, children, ...props}) => {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    width: "100%",
-    paddingHorizontal: 6
-  }
-})
+    width: '100%',
+    paddingHorizontal: 6,
+  },
+});
 
 export default Page;

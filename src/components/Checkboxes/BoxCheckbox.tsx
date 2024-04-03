@@ -1,6 +1,11 @@
-import '@/../global.css'
+import '@/../global.css';
 import React, {FC, ReactNode} from 'react';
-import {TouchableOpacity, TouchableOpacityProps} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from 'react-native';
+import {colors} from '@/styles/theme';
 
 interface BoxCheckboxProps extends TouchableOpacityProps {
   children: ReactNode;
@@ -10,6 +15,7 @@ interface BoxCheckboxProps extends TouchableOpacityProps {
 }
 
 const BoxCheckbox: FC<BoxCheckboxProps> = ({
+  style,
   children,
   checked,
   color,
@@ -24,13 +30,29 @@ const BoxCheckbox: FC<BoxCheckboxProps> = ({
   return (
     <TouchableOpacity
       onPress={handlePress}
-      className={`flex-1 flex-row items-center justify-center px-4 py-8 bg-shark rounded-lg ${
-        checked ? (color === 'success' ? 'bg-success' : 'bg-error') : ''
-      }`}
+      style={[styles(checked, color).checkbox, style]}
       {...props}>
       {children}
     </TouchableOpacity>
   );
 };
+
+const styles = (checked: boolean, color: string) =>
+  StyleSheet.create({
+    checkbox: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 16,
+      paddingVertical: 32,
+      borderRadius: 10,
+      backgroundColor: checked
+        ? color === 'success'
+          ? colors.success
+          : colors.error
+        : colors.shark,
+    },
+  });
 
 export default BoxCheckbox;

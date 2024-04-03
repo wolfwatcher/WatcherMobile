@@ -8,7 +8,12 @@ interface LineCheckboxProps extends ViewProps {
   onPress: () => void;
 }
 
-const LineCheckbox: FC<LineCheckboxProps> = ({text, onPress, ...props}) => {
+const LineCheckbox: FC<LineCheckboxProps> = ({
+  style,
+  text,
+  onPress,
+  ...props
+}) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handlePress = () => {
@@ -17,7 +22,7 @@ const LineCheckbox: FC<LineCheckboxProps> = ({text, onPress, ...props}) => {
   };
 
   return (
-    <View className="w-full bg-swan/30 rounded-lg px-4 py-3" {...props}>
+    <View style={[styles.view, style]} {...props}>
       <BouncyCheckbox
         text={text}
         fillColor={isChecked ? colors.success : colors.swan + '50'}
@@ -32,6 +37,13 @@ const LineCheckbox: FC<LineCheckboxProps> = ({text, onPress, ...props}) => {
 };
 
 const styles = StyleSheet.create({
+  view: {
+    width: '100%',
+    backgroundColor: 'rgb(250 250 250 / 0.3)',
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
   iconStyle: {
     borderRadius: 5,
   },

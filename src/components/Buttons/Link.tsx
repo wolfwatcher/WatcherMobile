@@ -8,9 +8,9 @@ interface LinkProps extends TouchableOpacityProps {
     textStyle?: TextProps['style'];
 }
 
-const Link: FC<LinkProps> = ({children, textStyle, ...props}) => {
+const Link: FC<LinkProps> = ({style, children, textStyle, ...props}) => {
     return (
-        <TouchableOpacity {...props}>
+        <TouchableOpacity {...props} style={style}>
             <Text style={textStyle}>{children}</Text>
         </TouchableOpacity>
     );

@@ -3,7 +3,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {TMDBMovieType, TMDBSerieType} from '@/types';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Text from '@/components/Texts/Text';
-import Image from '@/components/Images/Image'
+import Image from '@/components/Images/Image';
 import HeartIcon from '@/assets/icons/HeartIcon';
 import {colors} from '@/styles/theme';
 
@@ -32,17 +32,29 @@ const TMDBContentCheckbox: FC<TMDBContentCheckboxProps> = ({
 
   return (
     <TouchableOpacity
-      className="bg-shark rounded-lg p-2"
+      style={styles.touchable}
       onPress={() => bouncyCheckboxRef?.onPress()}>
-      <View className="flex flex-row justify-between">
-        <View className="flex flex-row">
+      <View style={styles.globalView}>
+        <View style={styles.subView}>
           <Image
             style={{width: 44, height: 64, marginRight: 8}}
-            source={{uri: process.env.EXPO_PUBLIC_TMDB_POSTER_URL + item.poster_path}}
+            source={{
+              uri: process.env.EXPO_PUBLIC_TMDB_POSTER_URL + item.poster_path,
+            }}
           />
-          <View className="flex justify-around">
-            <Text className="font-bold">{getTitle()}</Text>
-            <Text className="text-rabbit">{getReleaseDate()}</Text>
+          <View style={styles.finalView}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+              }}>
+              {getTitle()}
+            </Text>
+            <Text
+              style={{
+                color: colors.rabbit,
+              }}>
+              {getReleaseDate()}
+            </Text>
           </View>
         </View>
         <BouncyCheckbox
@@ -63,6 +75,24 @@ const TMDBContentCheckbox: FC<TMDBContentCheckboxProps> = ({
 };
 
 const styles = StyleSheet.create({
+  touchable: {
+    backgroundColor: colors.shark,
+    borderRadius: 10,
+    padding: 8,
+  },
+  globalView: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  subView: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  finalView: {
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
   iconStyle: {
     width: 32,
     height: 32,
