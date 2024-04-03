@@ -65,7 +65,7 @@ const Subscriptions = () => {
 
   const handleNext = () => {
     // @TODO: proper logic
-    router.navigate('/(auth)/(tabs)/recommendations');
+    router.navigate('/recommendations');
   };
 
   const renderItem: ListRenderItem<SubscriptionType> = ({item}) => {

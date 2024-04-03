@@ -11,7 +11,7 @@ const Personal = () => {
   const router = useRouter();
   const handleNext = (choice: string) => {
     if (choice === 'mail') {
-      router.navigate('/(auth)/(tabs)/subscriptions');
+      router.navigate('/subscriptions');
       return;
     }
     // @TODO proper logic

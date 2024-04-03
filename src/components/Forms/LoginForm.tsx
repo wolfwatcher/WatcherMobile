@@ -36,7 +36,7 @@ const LoginForm: FC<LoginFormProps> = ({...props}) => {
   };
 
   const handleRegister = () => {
-    router.navigate('/(auth)/register');
+    router.navigate('birthdate');
   };
 
   return (

@@ -1,12 +1,13 @@
-import {RegisterStepType} from "@/types";
+import {RegisterStepType} from '@/types';
+
 export const registerSteps: RegisterStepType[] = [
-    {name: 'BirthdateScreen'},
-    {name: 'FavoriteContentScreen'},
-    {name: 'FavoriteGenresScreen'},
-    {name: 'HatedGenresScreen'},
-    {name: 'FavoriteMoviesScreen'},
-    {name: 'FavoriteSeriesScreen'},
-    {name: 'SubscriptionsScreen'},
-    {name: 'CinemaRecommendationsScreen'},
-    {name: 'PersonalInfosScreen'},
+  {name: 'birthdate'},
+  {name: 'favorite-content'},
+  {name: 'favorite-genres'},
+  {name: 'hated-genres'},
+  {name: 'favorite-movies'},
+  {name: 'favorite-series'},
+  {name: 'subscriptions'},
+  {name: 'recommendations'},
+  {name: 'personal'},
 ];

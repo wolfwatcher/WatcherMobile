@@ -1,5 +1,4 @@
 import {FC} from 'react';
-import {NativeStackScreenProps} from 'react-native-screens/native-stack';
 // == Types ==
 
 export type RegisterStepType = {
@@ -63,15 +62,15 @@ export type AuthStackParamList = {
 };
 
 export type RegisterStackParamList = {
-  BirthdateScreen: undefined;
-  FavoriteContentScreen: undefined;
-  FavoriteGenresScreen: undefined;
-  HatedGenresScreen: undefined;
-  FavoriteMoviesScreen: undefined;
-  FavoriteSeriesScreen: undefined;
-  SubscriptionsScreen: undefined;
-  CinemaRecommendationsScreen: undefined;
-  PersonalInfosScreen: undefined;
+  birthdate: undefined;
+  'favorite-content': undefined;
+  'favorite-genres': undefined;
+  'hated-genres': undefined;
+  'favorite-movies': undefined;
+  'favorite-series': undefined;
+  subscriptions: undefined;
+  recommendations: undefined;
+  personal: undefined;
 };
 
 // Params

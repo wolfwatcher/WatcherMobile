@@ -116,13 +116,13 @@ const styles = StyleSheet.create({
     height: 50,
   },
   placeholderStyle: {
-    fontFamily: 'Gill Sans',
+    fontFamily: 'avenir',
     fontSize: 16,
     color: '#CDCDCD',
     marginHorizontal: 10,
   },
   textStyle: {
-    fontFamily: 'Gill Sans',
+    fontFamily: 'avenir',
     fontSize: 16,
     marginHorizontal: 10,
   },

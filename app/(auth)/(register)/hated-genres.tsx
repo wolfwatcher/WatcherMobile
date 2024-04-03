@@ -3,11 +3,11 @@ import {BoxCheckbox, Button, Page, Text} from '@/components';
 import {FlatList, ListRenderItem} from 'react-native';
 import {GenreItemType} from '@/types';
 import {GENRES} from '@/data/constants';
-import {FavoriteGenresSvg} from '@/assets/images';
+import {HatedGenresSvg} from '@/assets/images';
 import {useRouter} from 'expo-router';
 import '../../../global.css';
 
-const FavoriteGenres = () => {
+const HatedGenres = () => {
   const [selected, setSelected] = useState([] as string[]);
 
   const handleSelect = (value: string) => {
@@ -21,15 +21,15 @@ const FavoriteGenres = () => {
   const router = useRouter();
 
   const handleNext = () => {
-    // @TODO proper logic
-    router.navigate('/(auth)/(tabs)/hated-genres');
+    // @TODO: save hated genres and stuff
+    router.navigate('/favorite-movies');
   };
 
   const renderItem: ListRenderItem<GenreItemType> = ({item}) => {
     return (
       <BoxCheckbox
         className="mb-4 mx-2"
-        color="success"
+        color="error"
         checked={selected.includes(item.genre)}
         onPress={() => handleSelect(item.genre)}>
         <Text>{item.genre}</Text>
@@ -40,7 +40,7 @@ const FavoriteGenres = () => {
 
   return (
     <Page className="px-0 w-full h-full pt-8 pb-8">
-      <FavoriteGenresSvg className="self-center mb-8" />
+      <HatedGenresSvg className="self-center mb-8" />
       <FlatList
         data={GENRES}
         renderItem={renderItem}
@@ -54,4 +54,4 @@ const FavoriteGenres = () => {
   );
 };
 
-export default FavoriteGenres;
+export default HatedGenres;

@@ -9,7 +9,7 @@ const Recommendations = () => {
   const router = useRouter();
   const handleNext = (withRecommendation: boolean) => {
     // @TODO: proper logic
-    router.navigate('/(auth)/(tabs)/personal');
+    router.navigate('/personal');
   };
 
   return (

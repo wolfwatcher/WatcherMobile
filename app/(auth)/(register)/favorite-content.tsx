@@ -20,7 +20,7 @@ const FavoriteContent = () => {
 
   const handleNext = () => {
     // @TODO proper logic
-    router.navigate('/(auth)/(tabbs)/favorite-genres');
+    router.navigate('/favorite-genres');
   };
 
   return (

@@ -21,7 +21,7 @@ const FavoriteMovies = () => {
 
   const handleNext = () => {
     // @TODO save selected movies and stuff
-    router.navigate('/(auth)/(tabs)/favorite-series');
+    router.navigate('/favorite-series');
   };
 
   const renderItem: ListRenderItem<TMDBMovieType> = ({item}) => {

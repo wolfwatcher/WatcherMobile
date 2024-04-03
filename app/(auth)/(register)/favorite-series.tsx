@@ -22,7 +22,7 @@ const FavoriteSeries = () => {
 
   const handleNext = () => {
     // @TODO save selected movies and stuff
-    router.navigate('/(auth)/(tabs)/subscriptions');
+    router.navigate('/subscriptions');
   };
 
   const renderItem: ListRenderItem<TMDBSerieType> = ({item}) => {

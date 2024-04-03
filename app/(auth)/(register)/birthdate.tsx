@@ -22,7 +22,7 @@ const Birthdate = () => {
         step: progression.step + 1,
       }),
     );
-    router.navigate('/(auth)/(tabs)/favorite-content');
+    router.navigate('/favorite-content');
   };
   return (
     <Page style={styles.page}>
