@@ -3,14 +3,14 @@ import '../global.css';
 import {Slot, SplashScreen} from 'expo-router';
 import {useFonts} from 'expo-font';
 import React, {useEffect} from 'react';
-import {DarkTheme, ThemeProvider} from '@react-navigation/native';
+import {ThemeProvider, useTheme} from '@react-navigation/native';
 import {persistor, store} from '@/store/configureStore';
 import {StatusBar} from 'expo-status-bar';
 import {Provider as ReduxProvider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
-import {useColorScheme} from 'nativewind';
 import {AuthProvider} from '@/context/auth';
 import {View} from 'react-native';
+import {colors} from '@/styles/theme';
 
 export {ErrorBoundary} from 'expo-router';
 
@@ -40,9 +40,11 @@ export default () => {
 };
 
 const RootLayout = () => {
-  const {colorScheme} = useColorScheme();
+  const customTheme = useTheme();
+  customTheme.colors = colors;
+
   return (
-    <ThemeProvider value={DarkTheme}>
+    <ThemeProvider value={customTheme}>
       <ReduxProvider store={store}>
         <PersistGate persistor={persistor} loading={null}>
           <AuthProvider>

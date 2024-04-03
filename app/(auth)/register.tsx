@@ -6,7 +6,6 @@ import {TouchableOpacity, View} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {useAppSelector} from '@/hooks';
 import {ArrowBackwardIcon} from '@/assets/icons';
-import {Stack} from 'expo-router/stack';
 import {useRouter} from 'expo-router';
 
 const Register = () => {
@@ -48,17 +47,17 @@ const Register = () => {
           borderWidth={0}
         />
       </View>
-      <Stack
-        screenOptions={{
-          gestureEnabled: true,
-          headerShown: false,
-        }}>
-        {/*TODO: DO REGISTER STEPS*/}
-        {/*{registerSteps.map(({name}) => (*/}
-        {/*    <Stack.Screen key={name} name={name}/>*/}
-        {/*))}*/}
-        <Stack.Screen name="birthdate" />
-      </Stack>
+      {/*<Stack*/}
+      {/*  screenOptions={{*/}
+      {/*    gestureEnabled: true,*/}
+      {/*    headerShown: false,*/}
+      {/*  }}>*/}
+      {/*  /!*TODO: DO REGISTER STEPS*!/*/}
+      {/*  /!*{registerSteps.map(({name}) => (*!/*/}
+      {/*  /!*    <Stack.Screen key={name} name={name}/>*!/*/}
+      {/*  /!*))}*!/*/}
+      {/*  <Stack.Screen name="(tabs)" options={{headerShown: false}} />*/}
+      {/*</Stack>*/}
     </Page>
   );
 };
