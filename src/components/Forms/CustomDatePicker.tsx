@@ -13,19 +13,21 @@ import moment from 'moment';
 
 interface CustomDatePickerProps extends ViewProps {
   date: Date;
-  placeholder: string;
+  onDateChange: (date: Date) => void;
 }
 
-const CustomDatePicker: FC<CustomDatePickerProps> = ({...props}) => {
-  const [dateString, setDateString] = useState(
-    moment(new Date()).format('YYYY-MM-DD'),
-  );
-  const [date, setDate] = useState(props.date || new Date());
+const CustomDatePicker: FC<CustomDatePickerProps> = ({
+  date,
+  onDateChange,
+  ...props
+}) => {
   const [show, setShow] = useState(false);
 
   const onChange = (event: any, selectedDate: any) => {
-    setDateString(moment(selectedDate).format('YYYY-MM-DD'));
-    setDate(selectedDate);
+    hideOverlay();
+    if (event.type === 'set') {
+      onDateChange(selectedDate);
+    }
   };
 
   const showOverlay = () => {
@@ -36,15 +38,13 @@ const CustomDatePicker: FC<CustomDatePickerProps> = ({...props}) => {
   };
 
   return (
-    <View style={{flex: 1, borderRadius: 100}}>
+    <View style={{borderRadius: 100}} {...props}>
       <TouchableOpacity
         onPress={showOverlay}
         style={styles.inputContainerStyle}>
-        {dateString ? (
-          <Text style={styles.textStyle}>{dateString}</Text>
-        ) : (
-          <Text style={styles.placeholderStyle}>{props.placeholder}</Text>
-        )}
+        <Text style={styles.textStyle}>
+          {moment(date).format('DD /MM / YYYY')}
+        </Text>
       </TouchableOpacity>
       {Platform.OS === 'ios' ? (
         <Overlay
@@ -62,7 +62,6 @@ const CustomDatePicker: FC<CustomDatePickerProps> = ({...props}) => {
           <DateTimePicker
             value={date}
             mode={'date'}
-            is24Hour={true}
             display="default"
             onChange={onChange}
             style={{backgroundColor: 'white'}}
@@ -74,7 +73,6 @@ const CustomDatePicker: FC<CustomDatePickerProps> = ({...props}) => {
             <DateTimePicker
               value={date}
               mode={'date'}
-              is24Hour={true}
               display="default"
               onChange={onChange}
               style={{backgroundColor: 'white'}}
@@ -108,22 +106,16 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#CAD3DF',
+    borderColor: 'grey',
     borderRadius: 5,
     marginVertical: 10,
     marginHorizontal: 10,
-    paddingRight: 10,
     height: 50,
   },
-  placeholderStyle: {
-    fontFamily: 'avenir',
-    fontSize: 16,
-    color: '#CDCDCD',
-    marginHorizontal: 10,
-  },
   textStyle: {
+    color: 'white',
     fontFamily: 'avenir',
-    fontSize: 16,
+    fontSize: 32,
     marginHorizontal: 10,
   },
 });

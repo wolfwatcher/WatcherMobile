@@ -11,7 +11,8 @@ const Birthdate = () => {
   const dispatch = useAppDispatch();
   const progression = useAppSelector(state => state.register.progression);
 
-  const [date, setDate] = useState(new Date());
+  const today = new Date();
+  const [date, setDate] = useState(today);
   const router = useRouter();
 
   const handleNext = () => {
@@ -29,10 +30,8 @@ const Birthdate = () => {
       <View style={styles.view}>
         <OnboardingAgeSvg />
       </View>
-      <CustomDatePicker
-        date={date}
-        placeholder={'Veuillez entre votre date de naissance'}
-      />
+      <CustomDatePicker date={date} onDateChange={setDate} />
+
       <Button
         style={{
           marginTop: 24,
