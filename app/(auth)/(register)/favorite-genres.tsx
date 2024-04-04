@@ -4,9 +4,16 @@ import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {GenreItemType} from '@/types';
 import {GENRES} from '@/data/constants';
 import {FavoriteGenresSvg} from '@/assets/images';
-import {useRouter} from 'expo-router';
+import {useLocalSearchParams, useRouter} from 'expo-router';
+import {progress} from '@/store/slices/registerSlice';
+import {useAppDispatch, useAppSelector} from '@/hooks';
 
 const FavoriteGenres = () => {
+  const dispatch = useAppDispatch();
+  const progression = useAppSelector(state => state.register.progression);
+  const router = useRouter();
+  const {step} = useLocalSearchParams<{step: string}>();
+
   const [selected, setSelected] = useState([] as string[]);
 
   const handleSelect = (value: string) => {
@@ -17,10 +24,14 @@ const FavoriteGenres = () => {
     }
   };
 
-  const router = useRouter();
-
   const handleNext = () => {
     // @TODO proper logic
+    dispatch(
+      progress({
+        ...progression,
+        step: step !== undefined ? parseInt(step) + 1 : 0,
+      }),
+    );
     router.navigate('/hated-genres');
   };
 

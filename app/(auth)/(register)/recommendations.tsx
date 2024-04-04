@@ -2,12 +2,24 @@ import React from 'react';
 import {Button, Page, Text} from '@/components';
 import {StyleSheet, View} from 'react-native';
 import {CinemaRecommendationsSvg} from '@/assets/images';
-import {useRouter} from 'expo-router';
+import {useLocalSearchParams, useRouter} from 'expo-router';
+import {useAppDispatch, useAppSelector} from '@/hooks';
+import {progress} from '@/store/slices/registerSlice';
 
 const Recommendations = () => {
+  const dispatch = useAppDispatch();
+  const progression = useAppSelector(state => state.register.progression);
   const router = useRouter();
+  const {step} = useLocalSearchParams<{step: string}>();
+
   const handleNext = (withRecommendation: boolean) => {
     // @TODO: proper logic
+    dispatch(
+      progress({
+        ...progression,
+        step: step !== undefined ? parseInt(step) + 1 : 0,
+      }),
+    );
     router.navigate('/personal');
   };
 

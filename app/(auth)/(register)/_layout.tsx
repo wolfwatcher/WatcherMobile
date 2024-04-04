@@ -1,19 +1,45 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRouter} from 'expo-router';
-import {TouchableOpacity, View} from 'react-native';
+import {BackHandler, TouchableOpacity, View} from 'react-native';
 import {ArrowBackwardIcon} from '@/assets/icons';
 import * as Progress from 'react-native-progress';
 import {Page} from '@/components';
-import {useAppSelector} from '@/hooks';
+import {useAppDispatch, useAppSelector} from '@/hooks';
 import {Stack} from 'expo-router/stack';
 import {registerSteps} from '@/store/steps';
+import {initialState, progress} from '@/store/slices/registerSlice';
 
 const RegisterLayout = () => {
   const {step, steps} = useAppSelector(state => state.register.progression);
-
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
+  useEffect(() => {
+    dispatch(progress(initialState.progression));
+    const onBackPress = () => {
+      handlePreviousStep();
+      return true;
+    };
+
+    const subscription = BackHandler.addEventListener(
+      'hardwareBackPress',
+      onBackPress,
+    );
+
+    return () => subscription.remove();
+  }, []);
+
   const handleBack = () => {
+    handlePreviousStep();
+  };
+
+  const handlePreviousStep = () => {
+    dispatch(
+      progress({
+        step: step - 1,
+        steps,
+      }),
+    );
     router.back();
   };
 
@@ -49,8 +75,13 @@ const RegisterLayout = () => {
           gestureEnabled: true,
           headerShown: false,
         }}>
-        {registerSteps.map(({name}) => (
-          <Stack.Screen key={name} name={name} options={{headerShown: false}} />
+        {registerSteps.map(({name}, index) => (
+          <Stack.Screen
+            key={name}
+            name={name}
+            initialParams={{step: index}}
+            options={{headerShown: false}}
+          />
         ))}
       </Stack>
     </Page>

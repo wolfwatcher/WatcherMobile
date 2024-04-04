@@ -4,11 +4,23 @@ import {StyleSheet, View} from 'react-native';
 import {PersonalInfosSvg} from '@/assets/images';
 import {AppleIcon, FacebookIcon, GoogleIcon} from '@/assets/icons';
 import MailIcon from '@/assets/icons/MailIcon';
-import {useRouter} from 'expo-router';
+import {useLocalSearchParams, useRouter} from 'expo-router';
+import {useAppDispatch, useAppSelector} from '@/hooks';
+import {progress} from '@/store/slices/registerSlice';
 
 const Personal = () => {
+  const dispatch = useAppDispatch();
+  const progression = useAppSelector(state => state.register.progression);
   const router = useRouter();
+  const {step} = useLocalSearchParams<{step: string}>();
+
   const handleNext = (choice: string) => {
+    dispatch(
+      progress({
+        ...progression,
+        step: step !== undefined ? parseInt(step) + 1 : 0,
+      }),
+    );
     if (choice === 'mail') {
       router.navigate('/subscriptions');
       return;

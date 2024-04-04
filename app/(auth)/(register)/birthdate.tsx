@@ -4,27 +4,29 @@ import {StyleSheet} from 'react-native';
 import {useAppDispatch, useAppSelector} from '@/hooks';
 import {progress} from '@/store/slices/registerSlice';
 import {OnboardingAgeSvg} from '@/assets/images';
-import {useRouter} from 'expo-router';
+import {useLocalSearchParams, useRouter} from 'expo-router';
 import CustomDatePicker from '@/components/Forms/CustomDatePicker';
 
 const Birthdate = () => {
   const dispatch = useAppDispatch();
   const progression = useAppSelector(state => state.register.progression);
+  const router = useRouter();
+  const {step} = useLocalSearchParams<{step: string}>();
 
   const today = new Date();
   const [date, setDate] = useState(today);
-  const router = useRouter();
 
   const handleNext = () => {
-    // TODO proper logic
+    // @TODO proper logic
     dispatch(
       progress({
         ...progression,
-        step: progression.step + 1,
+        step: step !== undefined ? parseInt(step) + 1 : 0,
       }),
     );
     router.navigate('/favorite-content');
   };
+
   return (
     <Page style={styles.page}>
       <OnboardingAgeSvg />

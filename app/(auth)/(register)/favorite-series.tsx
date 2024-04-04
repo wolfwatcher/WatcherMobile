@@ -4,9 +4,16 @@ import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SERIES} from '@/data/constants';
 import {TMDBSerieType} from '@/types';
 import {FavoriteSeriseSvg} from '@/assets/images';
-import {useRouter} from 'expo-router';
+import {useLocalSearchParams, useRouter} from 'expo-router';
+import {useAppDispatch, useAppSelector} from '@/hooks';
+import {progress} from '@/store/slices/registerSlice';
 
 const FavoriteSeries = () => {
+  const dispatch = useAppDispatch();
+  const progression = useAppSelector(state => state.register.progression);
+  const router = useRouter();
+  const {step} = useLocalSearchParams<{step: string}>();
+
   const [selected, setSelected] = useState([] as number[]);
 
   const handleSelect = (value: number) => {
@@ -17,10 +24,14 @@ const FavoriteSeries = () => {
     }
   };
 
-  const router = useRouter();
-
   const handleNext = () => {
     // @TODO save selected movies and stuff
+    dispatch(
+      progress({
+        ...progression,
+        step: step !== undefined ? parseInt(step) + 1 : 0,
+      }),
+    );
     router.navigate('/subscriptions');
   };
 

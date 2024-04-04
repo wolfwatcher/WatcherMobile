@@ -12,7 +12,9 @@ import {
 } from '@/assets/images';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {colors} from '@/styles/theme';
-import {useRouter} from 'expo-router';
+import {useLocalSearchParams, useRouter} from 'expo-router';
+import {useAppDispatch, useAppSelector} from '@/hooks';
+import {progress} from '@/store/slices/registerSlice';
 
 const SubscriptionsList: SubscriptionType[] = [
   {
@@ -49,6 +51,11 @@ const SubscriptionsList: SubscriptionType[] = [
 ];
 
 const Subscriptions = () => {
+  const dispatch = useAppDispatch();
+  const progression = useAppSelector(state => state.register.progression);
+  const router = useRouter();
+  const {step} = useLocalSearchParams<{step: string}>();
+
   const [selected, setSelected] = useState([] as string[]);
   const [onlySubscriptions, setOnlySubscriptions] = useState(false);
 
@@ -60,10 +67,14 @@ const Subscriptions = () => {
     }
   };
 
-  const router = useRouter();
-
   const handleNext = () => {
     // @TODO: proper logic
+    dispatch(
+      progress({
+        ...progression,
+        step: step !== undefined ? parseInt(step) + 1 : 0,
+      }),
+    );
     router.navigate('/recommendations');
   };
 
