@@ -15,7 +15,7 @@ export const AuthProvider = ({children}: React.PropsWithChildren) => {
     if (!store.getState().auth.token && rootSegment !== '(auth)') {
       router.replace('/(auth)/login');
     } else if (store.getState().auth.token && rootSegment !== '(app)') {
-      router.replace('');
+      router.replace('/(app)/home');
     }
   }, [store.getState().auth.token, rootSegment]);
 
