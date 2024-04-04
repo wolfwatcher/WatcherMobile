@@ -1,5 +1,10 @@
 import authReducer from '@/store/slices/authSlice';
 import registerReducer from '@/store/slices/registerSlice';
-import {combineReducers} from "@reduxjs/toolkit";
+import sessionReducer from '@/store/slices/sessionSlice';
+import {combineReducers} from '@reduxjs/toolkit';
 
-export default combineReducers({auth: authReducer, register: registerReducer});
+export default combineReducers({
+  auth: authReducer,
+  register: registerReducer,
+  session: sessionReducer,
+});
