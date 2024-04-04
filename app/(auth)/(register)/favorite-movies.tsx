@@ -1,15 +1,20 @@
 import React, {useState} from 'react';
 import {Button, Page, Text, TMDBContentCheckbox} from '@/components';
-import {FlatList, ListRenderItem} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {MOVIES} from '@/data/constants';
 import {TMDBMovieType} from '@/types';
 import {FavoriteMoviesSvg} from '@/assets/images';
-import {useRouter} from 'expo-router';
-import '../../../global.css';
+import {useLocalSearchParams, useRouter} from 'expo-router';
+import {useAppDispatch, useAppSelector} from '@/hooks';
+import {progress} from '@/store/slices/registerSlice';
 
 const FavoriteMovies = () => {
-  const [selected, setSelected] = useState([] as number[]);
+  const dispatch = useAppDispatch();
+  const progression = useAppSelector(state => state.register.progression);
   const router = useRouter();
+  const {step} = useLocalSearchParams<{step: string}>();
+
+  const [selected, setSelected] = useState([] as number[]);
 
   const handleSelect = (value: number) => {
     if (selected.includes(value)) {
@@ -21,6 +26,12 @@ const FavoriteMovies = () => {
 
   const handleNext = () => {
     // @TODO save selected movies and stuff
+    dispatch(
+      progress({
+        ...progression,
+        step: step !== undefined ? parseInt(step) + 1 : 0,
+      }),
+    );
     router.navigate('/favorite-series');
   };
 
@@ -35,8 +46,8 @@ const FavoriteMovies = () => {
   };
 
   return (
-    <Page className="px-0 w-full h-full pt-8 pb-8">
-      <FavoriteMoviesSvg className="self-center mb-8" />
+    <Page style={styles.page}>
+      <FavoriteMoviesSvg style={styles.header} />
       <FlatList
         data={MOVIES}
         contentContainerStyle={styles.container}
@@ -44,17 +55,28 @@ const FavoriteMovies = () => {
         numColumns={1}
         keyExtractor={item => item.id.toString()}
       />
-      <Button className="mt-6" variant="primary" onPress={handleNext}>
+      <Button style={styles.nextButton} variant="primary" onPress={handleNext}>
         <Text>Suivant</Text>
       </Button>
     </Page>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
+  page: {
+    paddingHorizontal: 0,
+    paddingVertical: 32,
+  },
+  header: {
+    alignSelf: 'center',
+    marginBottom: 32,
+  },
   container: {
     gap: 24,
   },
-};
+  nextButton: {
+    marginTop: 24,
+  },
+});
 
 export default FavoriteMovies;

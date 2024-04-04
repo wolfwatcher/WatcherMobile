@@ -1,37 +1,36 @@
 import React, {useState} from 'react';
 import {Button, Page, Text} from '@/components';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {useAppDispatch, useAppSelector} from '@/hooks';
 import {progress} from '@/store/slices/registerSlice';
 import {OnboardingAgeSvg} from '@/assets/images';
-import {useRouter} from 'expo-router';
+import {useLocalSearchParams, useRouter} from 'expo-router';
 import CustomDatePicker from '@/components/Forms/CustomDatePicker';
 
 const Birthdate = () => {
   const dispatch = useAppDispatch();
   const progression = useAppSelector(state => state.register.progression);
+  const router = useRouter();
+  const {step} = useLocalSearchParams<{step: string}>();
 
   const today = new Date();
   const [date, setDate] = useState(today);
-  const router = useRouter();
 
   const handleNext = () => {
-    // TODO proper logic
+    // @TODO proper logic
     dispatch(
       progress({
         ...progression,
-        step: progression.step + 1,
+        step: step !== undefined ? parseInt(step) + 1 : 0,
       }),
     );
     router.navigate('/favorite-content');
   };
+
   return (
     <Page style={styles.page}>
-      <View style={styles.view}>
-        <OnboardingAgeSvg />
-      </View>
+      <OnboardingAgeSvg />
       <CustomDatePicker date={date} onDateChange={setDate} />
-
       <Button
         style={{
           marginTop: 24,
@@ -46,18 +45,10 @@ const Birthdate = () => {
 
 const styles = StyleSheet.create({
   page: {
-    paddingHorizontal: 0,
     paddingVertical: 32,
-    width: '100%',
-    height: '100%',
+    paddingHorizontal: 0,
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  view: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 32,
   },
 });
 

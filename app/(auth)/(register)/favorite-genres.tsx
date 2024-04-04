@@ -1,13 +1,19 @@
 import React, {useState} from 'react';
 import {BoxCheckbox, Button, Page, Text} from '@/components';
-import {FlatList, ListRenderItem} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {GenreItemType} from '@/types';
 import {GENRES} from '@/data/constants';
 import {FavoriteGenresSvg} from '@/assets/images';
-import {useRouter} from 'expo-router';
-import '../../../global.css';
+import {useLocalSearchParams, useRouter} from 'expo-router';
+import {progress} from '@/store/slices/registerSlice';
+import {useAppDispatch, useAppSelector} from '@/hooks';
 
 const FavoriteGenres = () => {
+  const dispatch = useAppDispatch();
+  const progression = useAppSelector(state => state.register.progression);
+  const router = useRouter();
+  const {step} = useLocalSearchParams<{step: string}>();
+
   const [selected, setSelected] = useState([] as string[]);
 
   const handleSelect = (value: string) => {
@@ -18,40 +24,69 @@ const FavoriteGenres = () => {
     }
   };
 
-  const router = useRouter();
-
   const handleNext = () => {
     // @TODO proper logic
+    dispatch(
+      progress({
+        ...progression,
+        step: step !== undefined ? parseInt(step) + 1 : 0,
+      }),
+    );
     router.navigate('/hated-genres');
   };
 
   const renderItem: ListRenderItem<GenreItemType> = ({item}) => {
     return (
       <BoxCheckbox
-        className="mb-4 mx-2"
+        style={styles.boxCheckbox}
         color="success"
         checked={selected.includes(item.genre)}
         onPress={() => handleSelect(item.genre)}>
         <Text>{item.genre}</Text>
-        <Text className="ml-2">{item.emoji}</Text>
+        <Text style={styles.boxCheckboxText}>{item.emoji}</Text>
       </BoxCheckbox>
     );
   };
 
   return (
-    <Page className="px-0 w-full h-full pt-8 pb-8">
-      <FavoriteGenresSvg className="self-center mb-8" />
+    <Page style={styles.page}>
+      <FavoriteGenresSvg style={styles.header} />
       <FlatList
         data={GENRES}
         renderItem={renderItem}
         numColumns={2}
         keyExtractor={item => item.genre}
       />
-      <Button className="mt-6" variant="primary" onPress={handleNext}>
+      <Button style={styles.nextButton} variant="primary" onPress={handleNext}>
         <Text>Suivant</Text>
       </Button>
     </Page>
   );
 };
+
+const styles = StyleSheet.create({
+  page: {
+    paddingHorizontal: 0,
+    paddingVertical: 32,
+  },
+  header: {
+    alignSelf: 'center',
+    marginBottom: 32,
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  nextButton: {
+    marginTop: 24,
+  },
+  boxCheckbox: {
+    marginHorizontal: 8,
+    marginBottom: 16,
+  },
+  boxCheckboxText: {
+    marginLeft: 8,
+  },
+});
 
 export default FavoriteGenres;

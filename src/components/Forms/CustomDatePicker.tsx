@@ -43,7 +43,7 @@ const CustomDatePicker: FC<CustomDatePickerProps> = ({
         onPress={showOverlay}
         style={styles.inputContainerStyle}>
         <Text style={styles.textStyle}>
-          {moment(date).format('DD /MM / YYYY')}
+          {moment(date).format('DD / MM / YYYY')}
         </Text>
       </TouchableOpacity>
       {Platform.OS === 'ios' ? (
