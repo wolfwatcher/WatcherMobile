@@ -78,3 +78,10 @@ export type LoginParams = {
   email: string;
   password: string;
 };
+
+export const AuthError = {
+  invalidLogin: {
+    apiMessage: 'Invalid login credentials',
+    translated: 'Vos indentifiants sont incorrects.',
+  },
+};

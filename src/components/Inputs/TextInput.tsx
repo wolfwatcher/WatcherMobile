@@ -22,9 +22,10 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: 'white',
     fontFamily: 'avenir',
-    padding: 8,
+    padding: 12,
     color: 'black',
     borderRadius: 10,
+    fontSize: 18,
   },
 });
 

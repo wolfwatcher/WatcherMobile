@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "WatcherMobile",
-    "slug": "WatcherMobile",
+    "slug": "watchers",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -34,6 +34,15 @@
     "plugins": [
       "expo-router"
     ],
-    "scheme": "com.watchermobile"
+    "scheme": "com.watchermobile",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "02e69dc3-a2cb-42ac-b5cd-b4a0f7b4a3a5"
+      }
+    },
+    "owner": "poulpyy"
   }
 }
