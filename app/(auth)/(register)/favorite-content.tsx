@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {Button, LineCheckbox, Page, Text} from '@/components';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {FavoriteContentSvg} from '@/assets/images';
 import {useRouter} from 'expo-router';
-import '../../../global.css';
 
 const FavoriteContent = () => {
   const [selected, setSelected] = useState([] as string[]);
@@ -24,21 +23,32 @@ const FavoriteContent = () => {
   };
 
   return (
-    <Page className="px-0 w-full h-full pt-8 pb-8">
-      <FavoriteContentSvg className="self-center" />
-      <View className="flex-col w-full h-full flex-1">
+    <Page style={styles.page}>
+      <FavoriteContentSvg />
+      <View style={styles.container}>
         <LineCheckbox
-          className="mb-6 mt-20"
+          style={{marginBottom: 24, marginTop: 96}}
           text="Films"
           onPress={() => handleSelect('films')}
         />
         <LineCheckbox text="Séries" onPress={() => handleSelect('series')} />
       </View>
-      <Button className="mt-6" variant="primary" onPress={handleNext}>
+      <Button variant="primary" onPress={handleNext}>
         <Text>Suivant</Text>
       </Button>
     </Page>
   );
 };
+
+const styles = StyleSheet.create({
+  page: {
+    paddingHorizontal: 0,
+    paddingVertical: 32,
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+});
 
 export default FavoriteContent;

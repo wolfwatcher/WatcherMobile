@@ -1,9 +1,8 @@
 import React from 'react';
 import {Button, Page, Text} from '@/components';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {CinemaRecommendationsSvg} from '@/assets/images';
 import {useRouter} from 'expo-router';
-import '../../../global.css';
 
 const Recommendations = () => {
   const router = useRouter();
@@ -13,17 +12,17 @@ const Recommendations = () => {
   };
 
   return (
-    <Page className="px-0 w-full h-full pt-8 pb-8">
-      <CinemaRecommendationsSvg className="self-center mb-28" />
-      <View className="flex w-full h-full flex-row gap-8">
+    <Page style={styles.page}>
+      <CinemaRecommendationsSvg style={styles.header} />
+      <View style={styles.container}>
         <Button
-          className="flex-1"
+          style={styles.recommendationButton}
           variant="success"
           onPress={() => handleNext(true)}>
           <Text>Oui</Text>
         </Button>
         <Button
-          className="flex-1"
+          style={styles.recommendationButton}
           variant="error"
           onPress={() => handleNext(false)}>
           <Text>Non</Text>
@@ -32,5 +31,27 @@ const Recommendations = () => {
     </Page>
   );
 };
+
+const styles = StyleSheet.create({
+  page: {
+    paddingHorizontal: 0,
+    paddingVertical: 32,
+  },
+  header: {
+    alignSelf: 'center',
+    marginBottom: 100,
+  },
+  container: {
+    flexDirection: 'row',
+    gap: 32,
+  },
+  recommendationButton: {
+    flex: 1,
+    flexGrow: 1,
+  },
+  nextButton: {
+    marginTop: 24,
+  },
+});
 
 export default Recommendations;

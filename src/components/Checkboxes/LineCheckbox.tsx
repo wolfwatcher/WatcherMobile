@@ -39,7 +39,7 @@ const LineCheckbox: FC<LineCheckboxProps> = ({
 const styles = StyleSheet.create({
   view: {
     width: '100%',
-    backgroundColor: 'rgb(250 250 250 / 0.3)',
+    backgroundColor: colors.swan + '4D',
     borderRadius: 10,
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textStyle: {
-    color: colors.shark,
+    color: 'white',
     textDecorationLine: 'none',
   },
 });

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Page, Text} from '@/components';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {useAppDispatch, useAppSelector} from '@/hooks';
 import {progress} from '@/store/slices/registerSlice';
 import {OnboardingAgeSvg} from '@/assets/images';
@@ -27,11 +27,8 @@ const Birthdate = () => {
   };
   return (
     <Page style={styles.page}>
-      <View style={styles.view}>
-        <OnboardingAgeSvg />
-      </View>
+      <OnboardingAgeSvg />
       <CustomDatePicker date={date} onDateChange={setDate} />
-
       <Button
         style={{
           marginTop: 24,
@@ -46,18 +43,10 @@ const Birthdate = () => {
 
 const styles = StyleSheet.create({
   page: {
-    paddingHorizontal: 0,
     paddingVertical: 32,
-    width: '100%',
-    height: '100%',
+    paddingHorizontal: 0,
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  view: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 32,
   },
 });
 
