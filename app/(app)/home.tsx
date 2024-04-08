@@ -6,51 +6,75 @@ import {Alert, ScrollView, StyleSheet, View} from 'react-native';
 import {Image} from 'expo-image';
 import {Octicons} from '@expo/vector-icons';
 import {colors} from '@/styles/theme';
-import {getDiscoverMovies, getMovieGenres} from '@/services/tmdb';
 import {Link} from 'expo-router';
 import {useAppSelector} from '@/hooks';
+import {TmdbSingleton} from '@/services/tmdb';
+import {Genres} from 'tmdb-ts/dist/endpoints';
+import {Genre, MovieDiscoverResult} from 'tmdb-ts';
 
 const Home = () => {
   const {session} = useAppSelector(state => state.session);
 
-  const [movies, setMovies] = useState<any>([]);
+  const [movies, setMovies] = useState<MovieDiscoverResult>();
   const [loadingDiscover, setLoadingDiscover] = useState(true);
-  const [moviesByGenre, setMoviesByGenre] = useState(new Map());
+  const [moviesByGenre, setMoviesByGenre] = useState(
+    new Map<number, MovieDiscoverResult>(),
+  );
   const [loadingMoviesByGenre, setLoadingMoviesByGenre] = useState(true);
-  const [genres, setGenres] = useState<any>([]);
-  const [loadingGenres, setLoadingGenres] = useState(true);
+  const [movieGenres, setMovieGenres] = useState<Genres>();
+  const [loadingMovieGenres, setLoadingMovieGenres] = useState(true);
   const [username, setUsername] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
   const [loadingProfile, setLoadingProfile] = useState(true);
 
-  const getMovies = async () => {
-    try {
-      const {data, error, status} = await supabase
-        .from('movies')
-        .select(
-          'imdb_id, title, popularity, vote_average, vote_count, genres, embedding',
-        )
-        .range(0, 25);
-
-      if (error && status !== 406) {
-        throw error;
-      }
-
-      if (data) {
-        setMovies(data);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        Alert.alert(error.message);
-      }
+  useEffect(() => {
+    if (session) {
+      getProfile();
     }
-  };
+  }, [session]);
+
+  useEffect(() => {
+    getGenres();
+    getDiscover();
+    //getMovies();
+  }, [loadingProfile]);
+
+  useEffect(() => {
+    getMoviesByGenre();
+  }, [loadingMovieGenres]);
+
+  /*const getMovies = async () => {
+            try {
+              const {data, error, status} = await supabase
+                .from('movies')
+                .select(
+                  'imdb_id, title, popularity, vote_average, vote_count, genres, embedding',
+                )
+                .range(0, 25);
+
+              if (error && status !== 406) {
+                throw error;
+              }
+
+              if (data) {
+                setMovies(data);
+              }
+            } catch (error) {
+              if (error instanceof Error) {
+                Alert.alert(error.message);
+              }
+            }
+          };*/
 
   const getDiscover = async () => {
     if (!session?.user) throw new Error('Aucune utilisateur dans la session !');
 
     try {
-      const data = await getDiscoverMovies(true);
+      const data = await TmdbSingleton.client.discover.movie({
+        language: 'fr-FR',
+        include_adult: true,
+        include_video: true,
+      });
 
       if (data) {
         setMovies(data);
@@ -68,35 +92,37 @@ const Home = () => {
     if (!session?.user) throw new Error('Aucune utilisateur dans la session !');
 
     try {
-      const data = await getMovieGenres();
+      const data = await TmdbSingleton.client.genres.movies({
+        language: 'fr',
+      });
       if (data) {
-        setGenres(data.slice(0, 3));
+        setMovieGenres(data);
       }
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert(error.message);
       }
     } finally {
-      setLoadingGenres(false);
+      setLoadingMovieGenres(false);
     }
   };
 
   const getMoviesByGenre = async () => {
     if (!session?.user) throw new Error('Aucune utilisateur dans la session !');
 
-    if (genres) {
+    if (movieGenres) {
       try {
         let map = new Map();
         await Promise.all(
-          genres.map(async (genre: {id: number; name: string}) => {
-            const data = await getDiscoverMovies(
-              true,
-              true,
-              'fr-FR',
-              1,
-              'popularity.desc',
-              `${genre.id}`,
-            );
+          movieGenres.genres.map(async genre => {
+            const data = await TmdbSingleton.client.discover.movie({
+              language: 'fr-FR',
+              include_adult: true,
+              include_video: true,
+              sort_by: 'popularity.desc',
+              with_genres: `${genre.id}`,
+              page: 1,
+            });
 
             if (data) {
               map.set(genre.id, data);
@@ -173,24 +199,6 @@ const Home = () => {
       setLoadingProfile(false);
     }
   };
-
-  useEffect(() => {
-    if (session) {
-      getProfile();
-    }
-  }, [session]);
-
-  useEffect(() => {
-    if (username) {
-      getGenres();
-      getDiscover();
-      //getMovies();
-    }
-  }, [loadingProfile]);
-
-  useEffect(() => {
-    getMoviesByGenre();
-  }, []);
 
   return (
     <Page style={styles.page}>
@@ -329,7 +337,7 @@ const Home = () => {
                     }}
                     source={
                       process.env.EXPO_PUBLIC_TMDB_POSTER_URL +
-                      movies[0]?.poster_path
+                      movies?.results[0]?.poster_path!
                     }
                     contentFit="cover"
                     transition={1000}
@@ -337,19 +345,12 @@ const Home = () => {
                 )}
               </View>
             </View>
-            {loadingGenres ? (
+            {loadingMovieGenres ? (
               <Text>Loading Genres...</Text>
             ) : (
-              genres
-                .sort(() => Math.random() - 0.5)
+              Array.from(moviesByGenre)
                 .slice(0, 3)
-                .map((genre: any, key: any) => {
-                  getMoviesByGenre(genre);
-                  console.log(
-                    loadingMoviesByGenre,
-                    moviesByGenre.get(genre.id) == null,
-                    key,
-                  );
+                .map(([genreId, movies], index) => {
                   return (
                     <View
                       style={{
@@ -358,49 +359,53 @@ const Home = () => {
                         alignSelf: 'flex-start',
                         gap: 12,
                         marginBottom:
-                          key === genres.slice(0, 3).length - 1 ? 32 : 0,
+                          index ===
+                          Array.from(moviesByGenre).slice(0, 3).length - 1
+                            ? 32
+                            : 0,
                       }}
-                      key={key}>
+                      key={genreId}>
                       <Text
                         style={{
                           fontFamily: 'avenir-black',
                           fontSize: 24,
                         }}>
-                        {genre.name}
+                        {
+                          movieGenres?.genres.find(genre => genre.id == genreId)
+                            ?.name
+                        }
                       </Text>
                       <ScrollView
                         horizontal={true}
+                        showsHorizontalScrollIndicator={false}
                         style={{
                           paddingHorizontal: 0,
                           flexGrow: 1,
                         }}>
-                        {loadingMoviesByGenre ||
-                        moviesByGenre.get(genre.id) == null ? (
+                        {loadingMoviesByGenre ? (
                           <Text>Loading MovieByGenre...</Text>
                         ) : (
-                          moviesByGenre
-                            .get(genre.id)
-                            .map((movie: any, key: any) => {
-                              return (
-                                <Image
-                                  key={key}
-                                  style={{
-                                    width: 125,
-                                    height: 175,
-                                    borderWidth: 1,
-                                    borderRadius: 8,
-                                    borderColor: 'white',
-                                    marginRight: 32,
-                                  }}
-                                  source={
-                                    process.env.EXPO_PUBLIC_TMDB_POSTER_URL +
-                                    movie?.poster_path
-                                  }
-                                  contentFit="cover"
-                                  transition={500}
-                                />
-                              );
-                            })
+                          movies.results.map((movie, key) => {
+                            return (
+                              <Image
+                                key={key}
+                                style={{
+                                  width: 125,
+                                  height: 175,
+                                  borderWidth: 1,
+                                  borderRadius: 8,
+                                  borderColor: 'white',
+                                  marginRight: 32,
+                                }}
+                                source={
+                                  process.env.EXPO_PUBLIC_TMDB_POSTER_URL +
+                                  movie?.poster_path
+                                }
+                                contentFit="cover"
+                                transition={500}
+                              />
+                            );
+                          })
                         )}
                       </ScrollView>
                     </View>
