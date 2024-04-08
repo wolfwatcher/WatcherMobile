@@ -19,27 +19,6 @@ const sessionSlice = createSlice({
       };
     },
   },
-  // extraReducers: ({addCase}) => {
-  //   addCase(PURGE, () => initialState);
-  //
-  //   // AUTH/LOGIN
-  //   addCase(loginRequest.pending, () => ({
-  //     ...initialState,
-  //     loading: true,
-  //   })).addCase(loginRequest.fulfilled, (state, {payload}) => ({
-  //     ...state,
-  //     token: payload.token,
-  //     refreshToken: payload.refreshToken,
-  //     loading: false,
-  //     error: null,
-  //   }));
-  //
-  //   // TODO: Fix this
-  //   // .addCase(loginRequest.rejected, (state, {payload}) => ({
-  //   //   ...initialState,
-  //   //   error: payload,
-  //   // }));
-  // },
 });
 
 // TODO: Maybe use a secure storage library instead of AsyncStorage

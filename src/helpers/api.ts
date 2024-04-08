@@ -2,10 +2,11 @@ import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
-  AxiosResponse, InternalAxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
 } from 'axios';
 import {ApiError} from '@/types';
-import {store} from "@/store/configureStore";
+import {useAppSelector} from '@/hooks';
 
 enum StatusCode {
   Unauthorized = 401,
@@ -15,9 +16,9 @@ enum StatusCode {
 }
 
 export const injectToken = (
-    config: InternalAxiosRequestConfig,
+  config: InternalAxiosRequestConfig,
 ): InternalAxiosRequestConfig => {
-  const token = store.getState().auth.token;
+  const {token} = useAppSelector(state => state.auth);
   if (token !== null) {
     config.headers.Authorization = `Bearer ${token}`;
   }
