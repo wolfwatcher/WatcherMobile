@@ -2,7 +2,6 @@ import {createSlice} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer} from 'redux-persist';
 import {AuthState} from '@/store/states';
-import {router} from 'expo-router';
 
 const initialState: AuthState = {
   token: null,
@@ -16,7 +15,6 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      router.replace('/(app)/home');
       return {
         ...state,
         token: action.payload.token,
@@ -24,7 +22,6 @@ const authSlice = createSlice({
       };
     },
     logout: () => {
-      router.replace('/(auth)/login');
       return initialState;
     },
   },

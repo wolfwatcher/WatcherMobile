@@ -1,28 +1,41 @@
-import * as React from 'react';
-import {store} from '@/store/configureStore';
 import {Slot, useRouter, useSegments} from 'expo-router';
+import {AppState} from 'react-native';
+import {supabase} from '@/services';
+import {useAppSelector} from '@/hooks';
+import {createContext, PropsWithChildren, useContext, useEffect} from 'react';
 
-const AuthContext = React.createContext<any>(null);
+const AuthContext = createContext<any>(null);
 
 export const useAuth = () => {
-  return React.useContext(AuthContext);
+  return useContext(AuthContext);
 };
 
-export const AuthProvider = ({children}: React.PropsWithChildren) => {
+AppState.addEventListener('change', state => {
+  if (state === 'active') {
+    supabase.auth.startAutoRefresh();
+  } else {
+    supabase.auth.stopAutoRefresh();
+  }
+});
+
+export const AuthProvider = ({children}: PropsWithChildren) => {
+  const {token} = useAppSelector(state => state.auth);
+
   const rootSegment = useSegments()[0];
   const router = useRouter();
-  React.useEffect(() => {
-    if (!store.getState().auth.token && rootSegment !== '(auth)') {
+
+  useEffect(() => {
+    if (!token && rootSegment !== '(auth)') {
       router.replace('/(auth)/login');
-    } else if (store.getState().auth.token && rootSegment !== '(app)') {
+    } else if (token && rootSegment !== '(app)') {
       router.replace('/(app)/home');
     }
-  }, [store.getState().auth.token, rootSegment]);
+  }, [token, rootSegment]);
 
   return (
     <AuthContext.Provider
       value={{
-        authentified: store.getState().auth.token != null,
+        authentified: token != null,
       }}>
       <Slot />
     </AuthContext.Provider>

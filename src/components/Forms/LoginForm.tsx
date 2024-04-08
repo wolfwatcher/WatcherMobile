@@ -6,7 +6,8 @@ import {Alert, StyleSheet, View, ViewProps} from 'react-native';
 import {useAppDispatch} from '@/hooks';
 import {login} from '@/store/slices/authSlice';
 import {supabase} from '@/services';
-import {useRouter} from 'expo-router';
+import {router, useRouter} from 'expo-router';
+import {AuthError} from '@/types';
 
 interface LoginFormProps extends ViewProps {}
 
@@ -23,7 +24,9 @@ const LoginForm: FC<LoginFormProps> = ({...props}) => {
       password: password,
     });
     if (error) {
-      Alert.alert(error.message);
+      if (error.message === AuthError.invalidLogin.apiMessage)
+        Alert.alert(AuthError.invalidLogin.translated);
+
       return;
     }
 
@@ -33,6 +36,8 @@ const LoginForm: FC<LoginFormProps> = ({...props}) => {
         refreshToken: data.session?.refresh_token,
       }),
     );
+
+    router.replace('/(app)/home');
   };
 
   const handleRegister = () => {

@@ -20,6 +20,7 @@ export default () => {
   const [loaded, error] = useFonts({
     avenir: require('@/assets/fonts/Avenir-Regular.otf'),
     'avenir-black': require('@/assets/fonts/Avenir-Black.otf'),
+    'avenir-light': require('@/assets/fonts/Avenir-Light.otf'),
   });
 
   useEffect(() => {

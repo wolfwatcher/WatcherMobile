@@ -1,3 +1,5 @@
+import {Session} from '@supabase/auth-js';
+
 export type AuthState = {
   token: string | null;
   refreshToken: string | null;
@@ -6,6 +8,11 @@ export type AuthState = {
     code: string;
     message: string;
   } | null;
+};
+
+export type SessionState = {
+  session: Session | null;
+  loading: boolean;
 };
 
 export type RegisterStateType = {
