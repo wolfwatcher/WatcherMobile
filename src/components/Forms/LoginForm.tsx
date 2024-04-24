@@ -3,16 +3,18 @@ import '@/../global.css';
 import React, {FC, useState} from 'react';
 import {Button, Link, Text, TextInput} from '@/components';
 import {Alert, StyleSheet, View, ViewProps} from 'react-native';
-import {useAppDispatch} from '@/hooks';
+import {useAppDispatch, useAppSelector} from '@/hooks';
 import {login} from '@/store/slices/authSlice';
 import {supabase} from '@/services';
-import {router, useRouter} from 'expo-router';
+import {useRouter} from 'expo-router';
 import {AuthError} from '@/types';
+import {initialState, progress} from '@/store/slices/registerSlice';
 
 interface LoginFormProps extends ViewProps {}
 
 const LoginForm: FC<LoginFormProps> = ({...props}) => {
   const dispatch = useAppDispatch();
+  const progression = useAppSelector(state => state.register);
   const router = useRouter();
 
   const [email, setEmail] = useState('');
@@ -41,7 +43,24 @@ const LoginForm: FC<LoginFormProps> = ({...props}) => {
   };
 
   const handleRegister = () => {
-    router.navigate('birthdate');
+    if (progression.step === 0) {
+      router.navigate('/register');
+      return;
+    }
+    // ask user if they want to continue their profile creation
+    Alert.alert('Souhaites-tu reprendre ton inscription ?', '', [
+      {
+        text: 'Oui',
+        onPress: () => router.navigate('/register'),
+      },
+      {
+        text: 'Non',
+        onPress: () => {
+          dispatch(progress(initialState));
+          router.navigate('/register');
+        },
+      },
+    ]);
   };
 
   return (

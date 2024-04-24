@@ -60,10 +60,3 @@ export const AuthError = {
     translated: 'Vos indentifiants sont incorrects.',
   },
 };
-
-export const AuthError = {
-  invalidLogin: {
-    apiMessage: 'Invalid login credentials',
-    translated: 'Vos indentifiants sont incorrects.',
-  },
-};

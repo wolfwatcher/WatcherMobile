@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer} from 'redux-persist';
 import {RegisterStateType} from '@/store/states';
 
-const initialState: RegisterStateType = {
+export const initialState: RegisterStateType = {
   step: 0,
   birthdate: undefined,
   favoriteContent: [],
@@ -37,6 +37,5 @@ const persistConfig = {
   whitelist: ['progression'],
 };
 
-export {initialState};
 export const {progress} = registerSlice.actions;
 export default persistReducer(persistConfig, registerSlice.reducer);

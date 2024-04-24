@@ -2,32 +2,28 @@ import React, {useEffect} from 'react';
 import {BackHandler, TouchableOpacity, View} from 'react-native';
 import {ArrowBackwardIcon} from '@/assets/icons';
 import * as Progress from 'react-native-progress';
-import {Page} from '@/components';
+import {
+  BirthdateStep,
+  FavoriteContentStep,
+  FavoriteGenresStep,
+  FavoriteMoviesStep,
+  FavoriteSeriesStep,
+  HatedGenresStep,
+  Page,
+  PersonalStep,
+  RecommandationsStep,
+  SubscriptionsStep,
+} from '@/components';
 import {useAppDispatch, useAppSelector} from '@/hooks';
-import Birthdate from './birthdate';
-import FavoriteContent from './favorite-content';
-import FavoriteGenres from './favorite-genres';
-import FavoriteMovies from './favorite-movies';
-import FavoriteSeries from './favorite-series';
 import {progress} from '@/store/slices/registerSlice';
-import HatedGenres from './hated-genres';
-import Subscriptions from './subscriptions';
-import Recommendations from './recommendations';
-import Personal from './personal';
 import {router} from 'expo-router';
 
 const RegisterLayout = () => {
   const progression = useAppSelector(state => state.register);
   const dispatch = useAppDispatch();
 
-  const handlePreviousStep = () => {
-    dispatch(progress({step: progression.step - 1}));
-    return;
-  };
-
-  const handleNextStep = () => {
-    dispatch(progress({step: progression.step + 1}));
-    return;
+  const handleStepNavigation = (offset: number) => {
+    dispatch(progress({step: progression.step + offset}));
   };
 
   useEffect(() => {
@@ -48,25 +44,25 @@ const RegisterLayout = () => {
       router.navigate('auth/login');
       return;
     }
-    handlePreviousStep();
+    handleStepNavigation(-1);
   };
 
   const registerSteps = [
-    Birthdate,
-    FavoriteContent,
-    FavoriteGenres,
-    HatedGenres,
-    FavoriteMovies,
-    FavoriteSeries,
-    Subscriptions,
-    Recommendations,
-    Personal,
+    BirthdateStep,
+    FavoriteContentStep,
+    FavoriteGenresStep,
+    HatedGenresStep,
+    FavoriteMoviesStep,
+    FavoriteSeriesStep,
+    SubscriptionsStep,
+    RecommandationsStep,
+    PersonalStep,
   ];
 
   const renderStep = () => {
     const {step} = progression;
     const Component = registerSteps[step];
-    return <Component onNext={handleNextStep} />;
+    return <Component onNext={() => handleStepNavigation(1)} />;
   };
 
   return (
