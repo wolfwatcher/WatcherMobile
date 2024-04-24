@@ -5,8 +5,11 @@ import {GenreItemType, RegisterStepPropsType} from '@/types';
 import {GENRES} from '@/data/constants';
 import {HatedGenresSvg} from '@/assets/images';
 
-const HatedGenres: FC<RegisterStepPropsType> = ({onNext}) => {
-  const [selected, setSelected] = useState([] as string[]);
+const HatedGenres: FC<RegisterStepPropsType> = ({
+  onNext,
+  progression: {hatedGenres},
+}) => {
+  const [selected, setSelected] = useState(hatedGenres);
 
   const handleSelect = (value: string) => {
     if (selected.includes(value)) {
@@ -17,8 +20,7 @@ const HatedGenres: FC<RegisterStepPropsType> = ({onNext}) => {
   };
 
   const handleNext = () => {
-    // @TODO: save hated genres and stuff
-    onNext();
+    onNext({hatedGenres: selected});
   };
 
   const renderItem: ListRenderItem<GenreItemType> = ({item}) => {

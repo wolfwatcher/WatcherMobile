@@ -4,8 +4,11 @@ import {StyleSheet, View} from 'react-native';
 import {FavoriteContentSvg} from '@/assets/images';
 import {RegisterStepPropsType} from '@/types';
 
-const FavoriteContent: FC<RegisterStepPropsType> = ({onNext}) => {
-  const [selected, setSelected] = useState([] as string[]);
+const FavoriteContent: FC<RegisterStepPropsType> = ({
+  onNext,
+  progression: {favoriteContent},
+}) => {
+  const [selected, setSelected] = useState(favoriteContent);
 
   const handleSelect = (value: string) => {
     if (selected.includes(value)) {
@@ -16,8 +19,7 @@ const FavoriteContent: FC<RegisterStepPropsType> = ({onNext}) => {
   };
 
   const handleNext = () => {
-    // @TODO proper logic
-    onNext();
+    onNext({favoriteContent: selected});
   };
 
   return (
@@ -28,8 +30,13 @@ const FavoriteContent: FC<RegisterStepPropsType> = ({onNext}) => {
           style={{marginBottom: 24, marginTop: 96}}
           text="Films"
           onPress={() => handleSelect('films')}
+          isChecked={selected.includes('films')}
         />
-        <LineCheckbox text="Séries" onPress={() => handleSelect('series')} />
+        <LineCheckbox
+          text="Séries"
+          onPress={() => handleSelect('series')}
+          isChecked={selected.includes('series')}
+        />
       </View>
       <Button variant="primary" onPress={handleNext}>
         <Text>Suivant</Text>

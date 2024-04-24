@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {colors} from '@/styles/theme';
@@ -6,18 +6,17 @@ import {colors} from '@/styles/theme';
 interface LineCheckboxProps extends ViewProps {
   text: string;
   onPress: () => void;
+  isChecked: boolean;
 }
 
 const LineCheckbox: FC<LineCheckboxProps> = ({
   style,
   text,
   onPress,
+  isChecked,
   ...props
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
-
   const handlePress = () => {
-    setIsChecked(!isChecked);
     onPress();
   };
 
@@ -31,6 +30,8 @@ const LineCheckbox: FC<LineCheckboxProps> = ({
         innerIconStyle={styles.iconStyle}
         textStyle={styles.textStyle}
         onPress={handlePress}
+        disableBuiltInState
+        isChecked={isChecked}
       />
     </View>
   );

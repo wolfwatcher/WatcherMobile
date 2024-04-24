@@ -6,8 +6,7 @@ import {RegisterStepPropsType} from '@/types';
 
 const Recommendations: FC<RegisterStepPropsType> = ({onNext}) => {
   const handleNext = (withRecommendation: boolean) => {
-    // @TODO: proper logic
-    onNext();
+    onNext({recommendations: withRecommendation});
   };
 
   return (

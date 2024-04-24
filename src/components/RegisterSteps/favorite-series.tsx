@@ -5,8 +5,11 @@ import {SERIES} from '@/data/constants';
 import {RegisterStepPropsType, TMDBSerieType} from '@/types';
 import {FavoriteSeriseSvg} from '@/assets/images';
 
-const FavoriteSeries: FC<RegisterStepPropsType> = ({onNext}) => {
-  const [selected, setSelected] = useState([] as number[]);
+const FavoriteSeries: FC<RegisterStepPropsType> = ({
+  onNext,
+  progression: {favoriteSeries},
+}) => {
+  const [selected, setSelected] = useState(favoriteSeries);
 
   const handleSelect = (value: number) => {
     if (selected.includes(value)) {
@@ -17,8 +20,7 @@ const FavoriteSeries: FC<RegisterStepPropsType> = ({onNext}) => {
   };
 
   const handleNext = () => {
-    // @TODO save selected movies and stuff
-    onNext();
+    onNext({favoriteSeries: selected});
   };
 
   const renderItem: ListRenderItem<TMDBSerieType> = ({item}) => {

@@ -5,13 +5,11 @@ import {OnboardingAgeSvg} from '@/assets/images';
 import CustomDatePicker from '@/components/Forms/CustomDatePicker';
 import {RegisterStepPropsType} from '@/types';
 
-const Birthdate: FC<RegisterStepPropsType> = ({onNext}) => {
-  const today = new Date();
-  const [date, setDate] = useState(today);
+const Birthdate: FC<RegisterStepPropsType> = ({onNext, progression}) => {
+  const [date, setDate] = useState(new Date(progression.birthdate));
 
   const handleNext = () => {
-    // @TODO proper logic
-    onNext();
+    onNext({birthdate: date.toISOString().split('T')[0]});
   };
 
   return (

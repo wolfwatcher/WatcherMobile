@@ -22,8 +22,8 @@ const RegisterLayout = () => {
   const progression = useAppSelector(state => state.register);
   const dispatch = useAppDispatch();
 
-  const handleStepNavigation = (offset: number) => {
-    dispatch(progress({step: progression.step + offset}));
+  const handleStepNavigation = (offset: number, payload: {} = {}) => {
+    dispatch(progress({step: progression.step + offset, ...payload}));
   };
 
   useEffect(() => {
@@ -62,7 +62,12 @@ const RegisterLayout = () => {
   const renderStep = () => {
     const {step} = progression;
     const Component = registerSteps[step];
-    return <Component onNext={() => handleStepNavigation(1)} />;
+    return (
+      <Component
+        onNext={(payload: {} = {}) => handleStepNavigation(1, payload)}
+        progression={progression}
+      />
+    );
   };
 
   return (

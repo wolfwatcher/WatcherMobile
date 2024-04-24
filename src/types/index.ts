@@ -1,4 +1,5 @@
 import {FC} from 'react';
+import {RegisterStateType} from '@/store/states';
 // == Types ==
 
 // === API ===
@@ -51,7 +52,8 @@ export interface TMDBSerieType extends TMDBContentType {
 }
 
 export interface RegisterStepPropsType {
-  onNext: () => void;
+  onNext: ({}) => void;
+  progression: RegisterStateType;
 }
 
 export const AuthError = {

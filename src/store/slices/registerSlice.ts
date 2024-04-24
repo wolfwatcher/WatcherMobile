@@ -5,14 +5,15 @@ import {RegisterStateType} from '@/store/states';
 
 export const initialState: RegisterStateType = {
   step: 0,
-  birthdate: undefined,
+  birthdate: new Date().toISOString().split('T')[0],
   favoriteContent: [],
   favoriteGenres: [],
   hatedGenres: [],
   favoriteMovies: [],
   favoriteSeries: [],
   subscriptions: [],
-  withRecommendations: undefined,
+  onlySubscriptions: false,
+  withRecommendations: false,
 };
 
 const registerSlice = createSlice({
@@ -20,8 +21,6 @@ const registerSlice = createSlice({
   initialState,
   reducers: {
     progress: (state, action) => {
-      console.log('action', action);
-      console.log('state', state);
       return {
         ...state,
         ...action.payload,

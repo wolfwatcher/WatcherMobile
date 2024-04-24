@@ -46,9 +46,13 @@ const SubscriptionsList: SubscriptionType[] = [
   },
 ];
 
-const Subscriptions: FC<RegisterStepPropsType> = ({onNext}) => {
-  const [selected, setSelected] = useState([] as string[]);
-  const [onlySubscriptions, setOnlySubscriptions] = useState(false);
+const Subscriptions: FC<RegisterStepPropsType> = ({
+  onNext,
+  progression: {subscriptions, onlySubscriptions},
+}) => {
+  const [selected, setSelected] = useState(subscriptions);
+  const [isOnlySubscriptions, setIsOnlySubscriptions] =
+    useState(onlySubscriptions);
 
   const handleSelect = (value: string) => {
     if (selected.includes(value)) {
@@ -59,8 +63,7 @@ const Subscriptions: FC<RegisterStepPropsType> = ({onNext}) => {
   };
 
   const handleNext = () => {
-    // @TODO: proper logic
-    onNext();
+    onNext({subscriptions: selected, onlySubscriptions: isOnlySubscriptions});
   };
 
   const renderItem: ListRenderItem<SubscriptionType> = ({item}) => {
@@ -95,10 +98,10 @@ const Subscriptions: FC<RegisterStepPropsType> = ({onNext}) => {
             textStyle={styles.checkboxText}
             innerIconStyle={styles.checkboxContent}
             iconStyle={styles.checkboxContent}
-            fillColor={onlySubscriptions ? colors.success : 'white'}
+            fillColor={isOnlySubscriptions ? colors.success : 'white'}
             disableBuiltInState
-            isChecked={onlySubscriptions}
-            onPress={() => setOnlySubscriptions(!onlySubscriptions)}
+            isChecked={isOnlySubscriptions}
+            onPress={() => setIsOnlySubscriptions(!isOnlySubscriptions)}
           />
           {/* TODO */}
           <Link textStyle={styles.skipButton} onPress={handleNext}>

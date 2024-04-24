@@ -17,12 +17,13 @@ export type SessionState = {
 
 export type RegisterStateType = {
   step: number;
-  birthdate?: string;
+  birthdate: string;
   favoriteContent: string[];
   favoriteGenres: string[];
   hatedGenres: string[];
   favoriteMovies: number[];
   favoriteSeries: number[];
   subscriptions: string[];
-  withRecommendations?: boolean;
+  onlySubscriptions: boolean;
+  withRecommendations: boolean;
 };

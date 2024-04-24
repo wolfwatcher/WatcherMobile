@@ -5,8 +5,11 @@ import {GenreItemType, RegisterStepPropsType} from '@/types';
 import {GENRES} from '@/data/constants';
 import {FavoriteGenresSvg} from '@/assets/images';
 
-const FavoriteGenres: FC<RegisterStepPropsType> = ({onNext}) => {
-  const [selected, setSelected] = useState([] as string[]);
+const FavoriteGenres: FC<RegisterStepPropsType> = ({
+  onNext,
+  progression: {favoriteGenres},
+}) => {
+  const [selected, setSelected] = useState(favoriteGenres);
 
   const handleSelect = (value: string) => {
     if (selected.includes(value)) {
@@ -17,8 +20,7 @@ const FavoriteGenres: FC<RegisterStepPropsType> = ({onNext}) => {
   };
 
   const handleNext = () => {
-    // @TODO proper logic
-    onNext();
+    onNext({favoriteGenres: selected});
   };
 
   const renderItem: ListRenderItem<GenreItemType> = ({item}) => {
