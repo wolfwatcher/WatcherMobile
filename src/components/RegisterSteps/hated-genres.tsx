@@ -7,7 +7,7 @@ import {HatedGenresSvg} from '@/assets/images';
 
 const HatedGenres: FC<RegisterStepPropsType> = ({
   onNext,
-  progression: {hatedGenres},
+  progression: {favoriteGenres, hatedGenres},
 }) => {
   const [selected, setSelected] = useState(hatedGenres);
 
@@ -40,7 +40,7 @@ const HatedGenres: FC<RegisterStepPropsType> = ({
     <Page style={styles.page}>
       <HatedGenresSvg style={styles.header} />
       <FlatList
-        data={GENRES}
+        data={GENRES.filter(genre => !favoriteGenres.includes(genre.genre))}
         renderItem={renderItem}
         numColumns={2}
         keyExtractor={item => item.genre}
