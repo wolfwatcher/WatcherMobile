@@ -1,30 +1,17 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {Button, Page, Text} from '@/components';
 import {StyleSheet} from 'react-native';
-import {useAppDispatch, useAppSelector} from '@/hooks';
-import {progress} from '@/store/slices/registerSlice';
 import {OnboardingAgeSvg} from '@/assets/images';
-import {useLocalSearchParams, useRouter} from 'expo-router';
 import CustomDatePicker from '@/components/Forms/CustomDatePicker';
+import {RegisterStepPropsType} from '@/types';
 
-const Birthdate = () => {
-  const dispatch = useAppDispatch();
-  const progression = useAppSelector(state => state.register.progression);
-  const router = useRouter();
-  const {step} = useLocalSearchParams<{step: string}>();
-
+const Birthdate: FC<RegisterStepPropsType> = ({onNext}) => {
   const today = new Date();
   const [date, setDate] = useState(today);
 
   const handleNext = () => {
     // @TODO proper logic
-    dispatch(
-      progress({
-        ...progression,
-        step: step !== undefined ? parseInt(step) + 1 : 0,
-      }),
-    );
-    router.navigate('/favorite-content');
+    onNext();
   };
 
   return (

@@ -1,23 +1,38 @@
 import React, {useEffect} from 'react';
-import {useRouter} from 'expo-router';
 import {BackHandler, TouchableOpacity, View} from 'react-native';
 import {ArrowBackwardIcon} from '@/assets/icons';
 import * as Progress from 'react-native-progress';
 import {Page} from '@/components';
 import {useAppDispatch, useAppSelector} from '@/hooks';
-import {Stack} from 'expo-router/stack';
-import {registerSteps} from '@/store/steps';
-import {initialState, progress} from '@/store/slices/registerSlice';
+import Birthdate from './birthdate';
+import FavoriteContent from './favorite-content';
+import FavoriteGenres from './favorite-genres';
+import FavoriteMovies from './favorite-movies';
+import FavoriteSeries from './favorite-series';
+import {progress} from '@/store/slices/registerSlice';
+import HatedGenres from './hated-genres';
+import Subscriptions from './subscriptions';
+import Recommendations from './recommendations';
+import Personal from './personal';
+import {router} from 'expo-router';
 
 const RegisterLayout = () => {
-  const {step, steps} = useAppSelector(state => state.register.progression);
+  const progression = useAppSelector(state => state.register);
   const dispatch = useAppDispatch();
-  const router = useRouter();
+
+  const handlePreviousStep = () => {
+    dispatch(progress({step: progression.step - 1}));
+    return;
+  };
+
+  const handleNextStep = () => {
+    dispatch(progress({step: progression.step + 1}));
+    return;
+  };
 
   useEffect(() => {
-    dispatch(progress(initialState.progression));
     const onBackPress = () => {
-      handlePreviousStep();
+      handleBack();
       return true;
     };
 
@@ -25,22 +40,33 @@ const RegisterLayout = () => {
       'hardwareBackPress',
       onBackPress,
     );
-
     return () => subscription.remove();
-  }, []);
+  }, [progression]);
 
   const handleBack = () => {
+    if (progression.step === 0) {
+      router.navigate('auth/login');
+      return;
+    }
     handlePreviousStep();
   };
 
-  const handlePreviousStep = () => {
-    dispatch(
-      progress({
-        step: step - 1,
-        steps,
-      }),
-    );
-    router.back();
+  const registerSteps = [
+    Birthdate,
+    FavoriteContent,
+    FavoriteGenres,
+    HatedGenres,
+    FavoriteMovies,
+    FavoriteSeries,
+    Subscriptions,
+    Recommendations,
+    Personal,
+  ];
+
+  const renderStep = () => {
+    const {step} = progression;
+    const Component = registerSteps[step];
+    return <Component onNext={handleNextStep} />;
   };
 
   return (
@@ -63,27 +89,14 @@ const RegisterLayout = () => {
           <ArrowBackwardIcon />
         </TouchableOpacity>
         <Progress.Bar
-          progress={step / steps}
+          progress={progression.step / registerSteps.length}
           width={300}
           color={'white'}
           unfilledColor={'gray'}
           borderWidth={0}
         />
       </View>
-      <Stack
-        screenOptions={{
-          gestureEnabled: true,
-          headerShown: false,
-        }}>
-        {registerSteps.map(({name}, index) => (
-          <Stack.Screen
-            key={name}
-            name={name}
-            initialParams={{step: index}}
-            options={{headerShown: false}}
-          />
-        ))}
-      </Stack>
+      <>{renderStep()}</>
     </Page>
   );
 };

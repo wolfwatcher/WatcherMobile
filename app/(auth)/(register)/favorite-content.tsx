@@ -1,17 +1,10 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {Button, LineCheckbox, Page, Text} from '@/components';
 import {StyleSheet, View} from 'react-native';
 import {FavoriteContentSvg} from '@/assets/images';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {progress} from '@/store/slices/registerSlice';
-import {useAppDispatch, useAppSelector} from '@/hooks';
+import {RegisterStepPropsType} from '@/types';
 
-const FavoriteContent = () => {
-  const dispatch = useAppDispatch();
-  const progression = useAppSelector(state => state.register.progression);
-  const router = useRouter();
-  const {step} = useLocalSearchParams<{step: string}>();
-
+const FavoriteContent: FC<RegisterStepPropsType> = ({onNext}) => {
   const [selected, setSelected] = useState([] as string[]);
 
   const handleSelect = (value: string) => {
@@ -24,13 +17,7 @@ const FavoriteContent = () => {
 
   const handleNext = () => {
     // @TODO proper logic
-    dispatch(
-      progress({
-        ...progression,
-        step: step !== undefined ? parseInt(step) + 1 : 0,
-      }),
-    );
-    router.navigate('/favorite-genres');
+    onNext();
   };
 
   return (

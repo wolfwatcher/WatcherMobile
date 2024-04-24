@@ -1,10 +1,6 @@
 import {FC} from 'react';
 // == Types ==
 
-export type RegisterStepType = {
-  name: keyof RegisterStackParamList;
-};
-
 // === API ===
 export type ApiError = {
   status: number;
@@ -54,29 +50,15 @@ export interface TMDBSerieType extends TMDBContentType {
   name: string;
 }
 
-// === Navigation ===
-// Stack
-export type AuthStackParamList = {
-  Login: undefined;
-  Register: undefined;
-};
+export interface RegisterStepPropsType {
+  onNext: () => void;
+}
 
-export type RegisterStackParamList = {
-  birthdate: undefined;
-  'favorite-content': undefined;
-  'favorite-genres': undefined;
-  'hated-genres': undefined;
-  'favorite-movies': undefined;
-  'favorite-series': undefined;
-  subscriptions: undefined;
-  recommendations: undefined;
-  personal: undefined;
-};
-
-// Params
-export type LoginParams = {
-  email: string;
-  password: string;
+export const AuthError = {
+  invalidLogin: {
+    apiMessage: 'Invalid login credentials',
+    translated: 'Vos indentifiants sont incorrects.',
+  },
 };
 
 export const AuthError = {

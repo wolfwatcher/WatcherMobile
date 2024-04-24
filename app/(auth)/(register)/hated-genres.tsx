@@ -1,19 +1,11 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {BoxCheckbox, Button, Page, Text} from '@/components';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
-import {GenreItemType} from '@/types';
+import {GenreItemType, RegisterStepPropsType} from '@/types';
 import {GENRES} from '@/data/constants';
 import {HatedGenresSvg} from '@/assets/images';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {useAppDispatch, useAppSelector} from '@/hooks';
-import {progress} from '@/store/slices/registerSlice';
 
-const HatedGenres = () => {
-  const dispatch = useAppDispatch();
-  const progression = useAppSelector(state => state.register.progression);
-  const router = useRouter();
-  const {step} = useLocalSearchParams<{step: string}>();
-
+const HatedGenres: FC<RegisterStepPropsType> = ({onNext}) => {
   const [selected, setSelected] = useState([] as string[]);
 
   const handleSelect = (value: string) => {
@@ -26,13 +18,7 @@ const HatedGenres = () => {
 
   const handleNext = () => {
     // @TODO: save hated genres and stuff
-    dispatch(
-      progress({
-        ...progression,
-        step: step !== undefined ? parseInt(step) + 1 : 0,
-      }),
-    );
-    router.navigate('/favorite-movies');
+    onNext();
   };
 
   const renderItem: ListRenderItem<GenreItemType> = ({item}) => {

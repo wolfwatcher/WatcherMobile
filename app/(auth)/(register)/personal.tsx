@@ -1,32 +1,16 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Button, Page, Text} from '@/components';
 import {StyleSheet, View} from 'react-native';
 import {PersonalInfosSvg} from '@/assets/images';
 import {AppleIcon, FacebookIcon, GoogleIcon} from '@/assets/icons';
 import MailIcon from '@/assets/icons/MailIcon';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {useAppDispatch, useAppSelector} from '@/hooks';
-import {progress} from '@/store/slices/registerSlice';
+import {RegisterStepPropsType} from '@/types';
 
-const Personal = () => {
-  const dispatch = useAppDispatch();
-  const progression = useAppSelector(state => state.register.progression);
-  const router = useRouter();
-  const {step} = useLocalSearchParams<{step: string}>();
-
+const Personal: FC<RegisterStepPropsType> = ({onNext}) => {
   const handleNext = (choice: string) => {
-    dispatch(
-      progress({
-        ...progression,
-        step: step !== undefined ? parseInt(step) + 1 : 0,
-      }),
-    );
+    // TODO Logic
     if (choice === 'mail') {
-      router.navigate('/subscriptions');
-      return;
-    }
-    // @TODO proper logic
-    if (choice === 'apple') {
+    } else if (choice === 'apple') {
     } else if (choice === 'google') {
     } else if (choice === 'facebook') {
     }

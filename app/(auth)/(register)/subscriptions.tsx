@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {BoxCheckbox, Button, Link, Page, Text} from '@/components';
 import {FlatList, Image, ListRenderItem, StyleSheet, View} from 'react-native';
-import {SubscriptionType} from '@/types';
+import {RegisterStepPropsType, SubscriptionType} from '@/types';
 import {
   AppleTVSvg,
   CrunchyrollSvg,
@@ -12,16 +12,12 @@ import {
 } from '@/assets/images';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {colors} from '@/styles/theme';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {useAppDispatch, useAppSelector} from '@/hooks';
-import {progress} from '@/store/slices/registerSlice';
 
 const SubscriptionsList: SubscriptionType[] = [
   {
     id: 'netflix',
     component: NetflixSvg,
   },
-
   {
     id: 'disney',
     component: DisneyPlusSvg,
@@ -50,12 +46,7 @@ const SubscriptionsList: SubscriptionType[] = [
   },
 ];
 
-const Subscriptions = () => {
-  const dispatch = useAppDispatch();
-  const progression = useAppSelector(state => state.register.progression);
-  const router = useRouter();
-  const {step} = useLocalSearchParams<{step: string}>();
-
+const Subscriptions: FC<RegisterStepPropsType> = ({onNext}) => {
   const [selected, setSelected] = useState([] as string[]);
   const [onlySubscriptions, setOnlySubscriptions] = useState(false);
 
@@ -69,13 +60,7 @@ const Subscriptions = () => {
 
   const handleNext = () => {
     // @TODO: proper logic
-    dispatch(
-      progress({
-        ...progression,
-        step: step !== undefined ? parseInt(step) + 1 : 0,
-      }),
-    );
-    router.navigate('/recommendations');
+    onNext();
   };
 
   const renderItem: ListRenderItem<SubscriptionType> = ({item}) => {

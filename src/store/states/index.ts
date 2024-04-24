@@ -16,10 +16,7 @@ export type SessionState = {
 };
 
 export type RegisterStateType = {
-  progression: {
-    steps: number;
-    step: number;
-  };
+  step: number;
   birthdate?: string;
   favoriteContent: string[];
   favoriteGenres: string[];
