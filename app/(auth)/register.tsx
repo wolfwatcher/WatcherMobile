@@ -15,7 +15,7 @@ import {
   SubscriptionsStep,
 } from '@/components';
 import {useAppDispatch, useAppSelector} from '@/hooks';
-import {progress} from '@/store/slices/registerSlice';
+import {initialState, progress} from '@/store/slices/registerSlice';
 import {router} from 'expo-router';
 
 const RegisterLayout = () => {
@@ -41,6 +41,7 @@ const RegisterLayout = () => {
 
   const handleBack = () => {
     if (progression.step === 0) {
+      dispatch(progress(initialState));
       router.navigate('auth/login');
       return;
     }
