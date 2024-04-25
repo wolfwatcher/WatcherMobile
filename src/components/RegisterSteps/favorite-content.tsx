@@ -1,18 +1,14 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {Button, LineCheckbox, Page, Text} from '@/components';
 import {StyleSheet, View} from 'react-native';
 import {FavoriteContentSvg} from '@/assets/images';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {progress} from '@/store/slices/registerSlice';
-import {useAppDispatch, useAppSelector} from '@/hooks';
+import {RegisterStepPropsType} from '@/types';
 
-const FavoriteContent = () => {
-  const dispatch = useAppDispatch();
-  const progression = useAppSelector(state => state.register.progression);
-  const router = useRouter();
-  const {step} = useLocalSearchParams<{step: string}>();
-
-  const [selected, setSelected] = useState([] as string[]);
+const FavoriteContent: FC<RegisterStepPropsType> = ({
+  onNext,
+  progression: {favoriteContent},
+}) => {
+  const [selected, setSelected] = useState(favoriteContent);
 
   const handleSelect = (value: string) => {
     if (selected.includes(value)) {
@@ -23,14 +19,7 @@ const FavoriteContent = () => {
   };
 
   const handleNext = () => {
-    // @TODO proper logic
-    dispatch(
-      progress({
-        ...progression,
-        step: step !== undefined ? parseInt(step) + 1 : 0,
-      }),
-    );
-    router.navigate('/favorite-genres');
+    onNext({favoriteContent: selected});
   };
 
   return (
@@ -41,8 +30,13 @@ const FavoriteContent = () => {
           style={{marginBottom: 24, marginTop: 96}}
           text="Films"
           onPress={() => handleSelect('films')}
+          isChecked={selected.includes('films')}
         />
-        <LineCheckbox text="Séries" onPress={() => handleSelect('series')} />
+        <LineCheckbox
+          text="Séries"
+          onPress={() => handleSelect('series')}
+          isChecked={selected.includes('series')}
+        />
       </View>
       <Button variant="primary" onPress={handleNext}>
         <Text>Suivant</Text>

@@ -14,3 +14,14 @@ export {default as TMDBContentCheckbox} from './Checkboxes/TMDBContentCheckbox';
 
 // Images
 export {default as Image} from './Images/Image';
+
+// RegisterSteps
+export {default as BirthdateStep} from './RegisterSteps/birthdate';
+export {default as FavoriteContentStep} from './RegisterSteps/favorite-content';
+export {default as FavoriteGenresStep} from './RegisterSteps/favorite-genres';
+export {default as HatedGenresStep} from './RegisterSteps/hated-genres';
+export {default as FavoriteMoviesStep} from './RegisterSteps/favorite-movies';
+export {default as FavoriteSeriesStep} from './RegisterSteps/favorite-series';
+export {default as SubscriptionsStep} from './RegisterSteps/subscriptions';
+export {default as RecommandationsStep} from './RegisterSteps/recommendations';
+export {default as PersonalStep} from './RegisterSteps/personal';

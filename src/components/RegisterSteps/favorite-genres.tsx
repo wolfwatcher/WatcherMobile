@@ -1,20 +1,15 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {BoxCheckbox, Button, Page, Text} from '@/components';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
-import {GenreItemType} from '@/types';
+import {GenreItemType, RegisterStepPropsType} from '@/types';
 import {GENRES} from '@/data/constants';
 import {FavoriteGenresSvg} from '@/assets/images';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {progress} from '@/store/slices/registerSlice';
-import {useAppDispatch, useAppSelector} from '@/hooks';
 
-const FavoriteGenres = () => {
-  const dispatch = useAppDispatch();
-  const progression = useAppSelector(state => state.register.progression);
-  const router = useRouter();
-  const {step} = useLocalSearchParams<{step: string}>();
-
-  const [selected, setSelected] = useState([] as string[]);
+const FavoriteGenres: FC<RegisterStepPropsType> = ({
+  onNext,
+  progression: {favoriteGenres},
+}) => {
+  const [selected, setSelected] = useState(favoriteGenres);
 
   const handleSelect = (value: string) => {
     if (selected.includes(value)) {
@@ -25,14 +20,7 @@ const FavoriteGenres = () => {
   };
 
   const handleNext = () => {
-    // @TODO proper logic
-    dispatch(
-      progress({
-        ...progression,
-        step: step !== undefined ? parseInt(step) + 1 : 0,
-      }),
-    );
-    router.navigate('/hated-genres');
+    onNext({favoriteGenres: selected});
   };
 
   const renderItem: ListRenderItem<GenreItemType> = ({item}) => {

@@ -1,7 +1,5 @@
-import '../../global.css';
-import {Stack} from 'expo-router/stack';
-
 import React from 'react';
+import {Stack} from 'expo-router/stack';
 
 const AuthLayout = () => {
   return (
@@ -11,7 +9,7 @@ const AuthLayout = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="login" options={{headerShown: false}} />
-      <Stack.Screen name="(register)" options={{headerShown: false}} />
+      <Stack.Screen name="register" options={{headerShown: false}} />
     </Stack>
   );
 };

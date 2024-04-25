@@ -1,9 +1,6 @@
 import {FC} from 'react';
+import {RegisterStateType} from '@/store/states';
 // == Types ==
-
-export type RegisterStepType = {
-  name: keyof RegisterStackParamList;
-};
 
 // === API ===
 export type ApiError = {
@@ -54,30 +51,10 @@ export interface TMDBSerieType extends TMDBContentType {
   name: string;
 }
 
-// === Navigation ===
-// Stack
-export type AuthStackParamList = {
-  Login: undefined;
-  Register: undefined;
-};
-
-export type RegisterStackParamList = {
-  birthdate: undefined;
-  'favorite-content': undefined;
-  'favorite-genres': undefined;
-  'hated-genres': undefined;
-  'favorite-movies': undefined;
-  'favorite-series': undefined;
-  subscriptions: undefined;
-  recommendations: undefined;
-  personal: undefined;
-};
-
-// Params
-export type LoginParams = {
-  email: string;
-  password: string;
-};
+export interface RegisterStepPropsType {
+  onNext: ({}) => void;
+  progression: RegisterStateType;
+}
 
 export const AuthError = {
   invalidLogin: {

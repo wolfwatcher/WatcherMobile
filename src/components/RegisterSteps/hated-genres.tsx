@@ -1,20 +1,15 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {BoxCheckbox, Button, Page, Text} from '@/components';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
-import {GenreItemType} from '@/types';
+import {GenreItemType, RegisterStepPropsType} from '@/types';
 import {GENRES} from '@/data/constants';
 import {HatedGenresSvg} from '@/assets/images';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {useAppDispatch, useAppSelector} from '@/hooks';
-import {progress} from '@/store/slices/registerSlice';
 
-const HatedGenres = () => {
-  const dispatch = useAppDispatch();
-  const progression = useAppSelector(state => state.register.progression);
-  const router = useRouter();
-  const {step} = useLocalSearchParams<{step: string}>();
-
-  const [selected, setSelected] = useState([] as string[]);
+const HatedGenres: FC<RegisterStepPropsType> = ({
+  onNext,
+  progression: {favoriteGenres, hatedGenres},
+}) => {
+  const [selected, setSelected] = useState(hatedGenres);
 
   const handleSelect = (value: string) => {
     if (selected.includes(value)) {
@@ -25,14 +20,7 @@ const HatedGenres = () => {
   };
 
   const handleNext = () => {
-    // @TODO: save hated genres and stuff
-    dispatch(
-      progress({
-        ...progression,
-        step: step !== undefined ? parseInt(step) + 1 : 0,
-      }),
-    );
-    router.navigate('/favorite-movies');
+    onNext({hatedGenres: selected});
   };
 
   const renderItem: ListRenderItem<GenreItemType> = ({item}) => {
@@ -52,7 +40,7 @@ const HatedGenres = () => {
     <Page style={styles.page}>
       <HatedGenresSvg style={styles.header} />
       <FlatList
-        data={GENRES}
+        data={GENRES.filter(genre => !favoriteGenres.includes(genre.genre))}
         renderItem={renderItem}
         numColumns={2}
         keyExtractor={item => item.genre}

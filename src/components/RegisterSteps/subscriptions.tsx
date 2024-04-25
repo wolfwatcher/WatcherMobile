@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {BoxCheckbox, Button, Link, Page, Text} from '@/components';
 import {FlatList, Image, ListRenderItem, StyleSheet, View} from 'react-native';
-import {SubscriptionType} from '@/types';
+import {RegisterStepPropsType, SubscriptionType} from '@/types';
 import {
   AppleTVSvg,
   CrunchyrollSvg,
@@ -12,16 +12,12 @@ import {
 } from '@/assets/images';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {colors} from '@/styles/theme';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {useAppDispatch, useAppSelector} from '@/hooks';
-import {progress} from '@/store/slices/registerSlice';
 
 const SubscriptionsList: SubscriptionType[] = [
   {
     id: 'netflix',
     component: NetflixSvg,
   },
-
   {
     id: 'disney',
     component: DisneyPlusSvg,
@@ -50,14 +46,13 @@ const SubscriptionsList: SubscriptionType[] = [
   },
 ];
 
-const Subscriptions = () => {
-  const dispatch = useAppDispatch();
-  const progression = useAppSelector(state => state.register.progression);
-  const router = useRouter();
-  const {step} = useLocalSearchParams<{step: string}>();
-
-  const [selected, setSelected] = useState([] as string[]);
-  const [onlySubscriptions, setOnlySubscriptions] = useState(false);
+const Subscriptions: FC<RegisterStepPropsType> = ({
+  onNext,
+  progression: {subscriptions, onlySubscriptions},
+}) => {
+  const [selected, setSelected] = useState(subscriptions);
+  const [isOnlySubscriptions, setIsOnlySubscriptions] =
+    useState(onlySubscriptions);
 
   const handleSelect = (value: string) => {
     if (selected.includes(value)) {
@@ -68,14 +63,7 @@ const Subscriptions = () => {
   };
 
   const handleNext = () => {
-    // @TODO: proper logic
-    dispatch(
-      progress({
-        ...progression,
-        step: step !== undefined ? parseInt(step) + 1 : 0,
-      }),
-    );
-    router.navigate('/recommendations');
+    onNext({subscriptions: selected, onlySubscriptions: isOnlySubscriptions});
   };
 
   const renderItem: ListRenderItem<SubscriptionType> = ({item}) => {
@@ -110,10 +98,10 @@ const Subscriptions = () => {
             textStyle={styles.checkboxText}
             innerIconStyle={styles.checkboxContent}
             iconStyle={styles.checkboxContent}
-            fillColor={onlySubscriptions ? colors.success : 'white'}
+            fillColor={isOnlySubscriptions ? colors.success : 'white'}
             disableBuiltInState
-            isChecked={onlySubscriptions}
-            onPress={() => setOnlySubscriptions(!onlySubscriptions)}
+            isChecked={isOnlySubscriptions}
+            onPress={() => setIsOnlySubscriptions(!isOnlySubscriptions)}
           />
           {/* TODO */}
           <Link textStyle={styles.skipButton} onPress={handleNext}>

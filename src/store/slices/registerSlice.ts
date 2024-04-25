@@ -2,37 +2,30 @@ import {createSlice} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer} from 'redux-persist';
 import {RegisterStateType} from '@/store/states';
-import {registerSteps} from '@/store/steps';
 
-const initialState: RegisterStateType = {
-  progression: {
-    steps: registerSteps.length,
-    step: 0,
-  },
-  birthdate: undefined,
+export const initialState: RegisterStateType = {
+  step: 0,
+  birthdate: new Date().toISOString().split('T')[0],
   favoriteContent: [],
   favoriteGenres: [],
   hatedGenres: [],
   favoriteMovies: [],
   favoriteSeries: [],
   subscriptions: [],
-  withRecommendations: undefined,
+  onlySubscriptions: false,
+  withRecommendations: false,
 };
 
 const registerSlice = createSlice({
   name: 'register',
   initialState,
   reducers: {
-    progress: (state, action) => ({
-      ...state,
-      progression: {
+    progress: (state, action) => {
+      return {
+        ...state,
         ...action.payload,
-      },
-    }),
-    setBirthdate: (state, action) => ({
-      ...state,
-      birthdate: action.payload,
-    }),
+      };
+    },
   },
 });
 
@@ -43,6 +36,5 @@ const persistConfig = {
   whitelist: ['progression'],
 };
 
-export {initialState};
-export const {progress, setBirthdate} = registerSlice.actions;
+export const {progress} = registerSlice.actions;
 export default persistReducer(persistConfig, registerSlice.reducer);

@@ -1,20 +1,15 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {Button, Page, Text, TMDBContentCheckbox} from '@/components';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
-import {SERIES} from '@/data/constants';
-import {TMDBSerieType} from '@/types';
-import {FavoriteSeriseSvg} from '@/assets/images';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {useAppDispatch, useAppSelector} from '@/hooks';
-import {progress} from '@/store/slices/registerSlice';
+import {MOVIES} from '@/data/constants';
+import {RegisterStepPropsType, TMDBMovieType} from '@/types';
+import {FavoriteMoviesSvg} from '@/assets/images';
 
-const FavoriteSeries = () => {
-  const dispatch = useAppDispatch();
-  const progression = useAppSelector(state => state.register.progression);
-  const router = useRouter();
-  const {step} = useLocalSearchParams<{step: string}>();
-
-  const [selected, setSelected] = useState([] as number[]);
+const FavoriteMovies: FC<RegisterStepPropsType> = ({
+  onNext,
+  progression: {favoriteMovies},
+}) => {
+  const [selected, setSelected] = useState(favoriteMovies);
 
   const handleSelect = (value: number) => {
     if (selected.includes(value)) {
@@ -25,17 +20,10 @@ const FavoriteSeries = () => {
   };
 
   const handleNext = () => {
-    // @TODO save selected movies and stuff
-    dispatch(
-      progress({
-        ...progression,
-        step: step !== undefined ? parseInt(step) + 1 : 0,
-      }),
-    );
-    router.navigate('/subscriptions');
+    onNext({favoriteMovies: selected});
   };
 
-  const renderItem: ListRenderItem<TMDBSerieType> = ({item}) => {
+  const renderItem: ListRenderItem<TMDBMovieType> = ({item}) => {
     return (
       <TMDBContentCheckbox
         item={item}
@@ -47,9 +35,9 @@ const FavoriteSeries = () => {
 
   return (
     <Page style={styles.page}>
-      <FavoriteSeriseSvg style={styles.header} />
+      <FavoriteMoviesSvg style={styles.header} />
       <FlatList
-        data={SERIES}
+        data={MOVIES}
         contentContainerStyle={styles.container}
         renderItem={renderItem}
         numColumns={1}
@@ -79,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FavoriteSeries;
+export default FavoriteMovies;
