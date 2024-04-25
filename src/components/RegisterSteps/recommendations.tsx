@@ -1,5 +1,7 @@
 import React, {FC} from 'react';
-import {Button, Page, Text} from '@/components';
+import Text from '@/components/Texts/Text';
+import Page from '@/components/Pages/Page';
+import Button from '@/components/Buttons/Button';
 import {StyleSheet, View} from 'react-native';
 import {CinemaRecommendationsSvg} from '@/assets/images';
 import {RegisterStepPropsType} from '@/types';

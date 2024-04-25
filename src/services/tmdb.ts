@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {TMDB} from 'tmdb-ts';
 
 export namespace TmdbSingleton {

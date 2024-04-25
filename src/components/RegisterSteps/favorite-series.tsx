@@ -1,5 +1,8 @@
 import React, {FC, useState} from 'react';
-import {Button, Page, Text, TMDBContentCheckbox} from '@/components';
+import Page from '@/components/Pages/Page';
+import Button from '@/components/Buttons/Button';
+import Text from '@/components/Texts/Text';
+import TMDBContentCheckbox from '@/components/Checkboxes/TMDBContentCheckbox';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SERIES} from '@/data/constants';
 import {RegisterStepPropsType, TMDBSerieType} from '@/types';

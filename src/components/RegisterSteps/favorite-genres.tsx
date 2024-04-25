@@ -1,5 +1,8 @@
 import React, {FC, useState} from 'react';
-import {BoxCheckbox, Button, Page, Text} from '@/components';
+import Text from '@/components/Texts/Text';
+import Page from '@/components/Pages/Page';
+import Button from '@/components/Buttons/Button';
+import BoxCheckbox from '@/components/Checkboxes/BoxCheckbox';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {GenreItemType, RegisterStepPropsType} from '@/types';
 import {GENRES} from '@/data/constants';
