@@ -1,5 +1,5 @@
-import React from 'react';
 import {Stack} from 'expo-router/stack';
+import React from 'react';
 
 const AuthLayout = () => {
   return (
@@ -7,8 +7,7 @@ const AuthLayout = () => {
       screenOptions={{
         gestureEnabled: true,
         headerShown: false,
-      }}
-    >
+      }}>
       <Stack.Screen name="login" options={{headerShown: false}} />
       <Stack.Screen name="register" options={{headerShown: false}} />
       <Stack.Screen

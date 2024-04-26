@@ -1,10 +1,10 @@
 import '../../global.css';
 import React from 'react';
-import {Page, Text} from '@/components';
-import {WatcherIcon} from '@/assets/icons';
-
-import {LoginForm, SocialNetworkGroup} from '@/components/Forms';
 import {StyleSheet, View} from 'react-native';
+
+import {WatcherIcon} from '@/assets/icons';
+import {Page, Text} from '@/components';
+import {LoginForm, SocialNetworkGroup} from '@/components/Forms';
 
 const LoginScreen = () => {
   return (

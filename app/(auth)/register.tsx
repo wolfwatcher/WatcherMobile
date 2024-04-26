@@ -1,7 +1,9 @@
+import {router} from 'expo-router';
 import React, {useEffect} from 'react';
 import {BackHandler, TouchableOpacity, View} from 'react-native';
-import {ArrowBackwardIcon} from '@/assets/icons';
 import * as Progress from 'react-native-progress';
+
+import {ArrowBackwardIcon} from '@/assets/icons';
 import {
   BirthdateStep,
   FavoriteContentStep,
@@ -16,13 +18,12 @@ import {
 } from '@/components';
 import {useAppDispatch, useAppSelector} from '@/hooks';
 import {initialState, progress} from '@/store/slices/registerSlice';
-import {router} from 'expo-router';
 
 const RegisterLayout = () => {
   const progression = useAppSelector(state => state.register);
   const dispatch = useAppDispatch();
 
-  const handleStepNavigation = (offset: number, payload: {} = {}) => {
+  const handleStepNavigation = (offset: number, payload: object = {}) => {
     dispatch(progress({step: progression.step + offset, ...payload}));
   };
 
@@ -65,7 +66,7 @@ const RegisterLayout = () => {
     const Component = registerSteps[step];
     return (
       <Component
-        onNext={(payload: {} = {}) => handleStepNavigation(1, payload)}
+        onNext={(payload: object = {}) => handleStepNavigation(1, payload)}
         progression={progression}
       />
     );
@@ -93,8 +94,8 @@ const RegisterLayout = () => {
         <Progress.Bar
           progress={progression.step / registerSteps.length}
           width={300}
-          color={'white'}
-          unfilledColor={'gray'}
+          color="white"
+          unfilledColor="gray"
           borderWidth={0}
         />
       </View>

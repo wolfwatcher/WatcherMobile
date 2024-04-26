@@ -1,7 +1,8 @@
-import {Button, Page, Text} from '@/components';
-import {StyleSheet, View} from 'react-native';
-import React from 'react';
 import {router, useLocalSearchParams} from 'expo-router';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
+
+import {Button, Page, Text} from '@/components';
 import {useAppDispatch} from '@/hooks';
 import {logout} from '@/store/slices/authSlice';
 

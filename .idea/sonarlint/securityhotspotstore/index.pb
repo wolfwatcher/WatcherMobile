@@ -1,6 +1,6 @@
 
 <
-package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
+package.json,7/0/7030d0b2f71b999ff89a343de08c414af32fc93a
 8
 app.json,6\5\65596286f14dbaba6a5081a2edaae69700cc3c3b
 4
@@ -10,7 +10,7 @@ H
 E
 src/services/index.ts,7\b\7ba1cbb8718370dad0382bce376c85fcbda3b656
 Q
-!supabase/functions/embed/index.ts,2\7\27ebc7000871d6f90e01e879e7cf3e778ac4b095
+!supabase/functions/embed/index.ts,2/7/27ebc7000871d6f90e01e879e7cf3e778ac4b095
 J
 supabase/functions/tmdb.ts,c/5/c519f45e7131365b252778e4a9c8f65e91640b70
 D
@@ -28,7 +28,7 @@ D
 C
 nativewind-env.d.ts,8\2\82c9cf64746e5cca265ddf859b873da7466f1043
 B
-app/(app)/home.tsx,2\2\22a47409c727d384cdffdadf1be6dbbce2943ef7
+app/(app)/home.tsx,2/2/22a47409c727d384cdffdadf1be6dbbce2943ef7
 I
 src/styles/theme/fonts.js,7/8/78187aa00eab3413e0adaaa20dcfb4d013a004c4
 ?
@@ -89,5 +89,7 @@ R
 "src/components/Forms/LoginForm.tsx,b\4\b46793e8f2da0d8a541f730425dd00cf21934918
 8
 eas.json,b\2\b2c6faa35c1c551556c81b82f88d4b81f53d18f0
-?
-.env.production,5\3\538818e7684624a442fce4828d05432406a7e873
+@
+eslint.config.js,f/8/f870111cc602b3d3e10ac380e0d1de4b6d105c67
+<
+.eslintrc.js,d/b/dbc0c31823b8f2e4ed04a397722fed33a67f123f

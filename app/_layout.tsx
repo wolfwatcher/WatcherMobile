@@ -1,15 +1,16 @@
 import '../global.css';
 
-import {Slot, SplashScreen} from 'expo-router';
-import {useFonts} from 'expo-font';
-import React, {useEffect} from 'react';
 import {ThemeProvider, useTheme} from '@react-navigation/native';
-import {persistor, store} from '@/store/configureStore';
+import {useFonts} from 'expo-font';
+import {Slot, SplashScreen} from 'expo-router';
 import {StatusBar} from 'expo-status-bar';
+import React, {useEffect} from 'react';
+import {View} from 'react-native';
 import {Provider as ReduxProvider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
+
 import {AuthProvider} from '@/context/auth';
-import {View} from 'react-native';
+import {persistor, store} from '@/store/configureStore';
 import {colors} from '@/styles/theme';
 
 export {ErrorBoundary} from 'expo-router';

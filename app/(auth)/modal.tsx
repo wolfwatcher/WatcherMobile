@@ -1,11 +1,12 @@
-import {Alert, StyleSheet, View} from 'react-native';
 import {useRouter} from 'expo-router';
 import {StatusBar} from 'expo-status-bar';
-import {Button, Text, TextInput} from '@/components';
 import React, {useState} from 'react';
+import {Alert, StyleSheet, View} from 'react-native';
+
+import {Button, Text, TextInput} from '@/components';
+import {useAppDispatch} from '@/hooks';
 import {supabase} from '@/services';
 import {login} from '@/store/slices/authSlice';
-import {useAppDispatch} from '@/hooks';
 
 const Modal = () => {
   const dispatch = useAppDispatch();
@@ -21,11 +22,11 @@ const Modal = () => {
       alert('Les mots de passe ne correspondent pas');
 
     const {error, data} = await supabase.auth.signUp({
-      email: email,
-      password: password,
+      email,
+      password,
       options: {
         data: {
-          name: name,
+          name,
         },
       },
     });
@@ -54,16 +55,14 @@ const Modal = () => {
         paddingHorizontal: 24,
         justifyContent: 'center',
         alignSelf: 'center',
-      }}
-    >
+      }}>
       <Text
         style={{
           fontFamily: 'avenir-black',
           fontSize: 24,
           lineHeight: 28,
           marginBottom: 32,
-        }}
-      >
+        }}>
         Quelques infos pour finir...
       </Text>
       <Text style={styles.label}>Pseudonyme</Text>
@@ -72,7 +71,7 @@ const Modal = () => {
         placeholder="Pseudonyme"
         value={name}
         onChangeText={text => setName(text)}
-        autoCapitalize={'none'}
+        autoCapitalize="none"
       />
       <Text style={styles.label}>Adresse mail</Text>
       <TextInput
@@ -80,7 +79,7 @@ const Modal = () => {
         placeholder="Adresse mail"
         value={email}
         onChangeText={text => setEmail(text)}
-        autoCapitalize={'none'}
+        autoCapitalize="none"
       />
       <Text style={styles.label}>Mot de passe</Text>
       <TextInput
@@ -89,7 +88,7 @@ const Modal = () => {
         secureTextEntry
         onChangeText={text => setPassword(text)}
         value={password}
-        autoCapitalize={'none'}
+        autoCapitalize="none"
       />
       <Text style={styles.label}>Confirmation du mot de passe</Text>
       <TextInput
@@ -98,15 +97,14 @@ const Modal = () => {
         secureTextEntry
         onChangeText={text => setConfirmPassword(text)}
         value={confirmPassword}
-        autoCapitalize={'none'}
+        autoCapitalize="none"
       />
       <Button
         style={{
           marginTop: 16,
         }}
         variant="primary"
-        onPress={handleSubmit}
-      >
+        onPress={handleSubmit}>
         <Text>Inscription</Text>
       </Button>
       <StatusBar style="light" />

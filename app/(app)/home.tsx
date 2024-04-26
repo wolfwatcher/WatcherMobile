@@ -1,7 +1,9 @@
 import '../../global.css';
+import {Octicons} from '@expo/vector-icons';
+import {Image} from 'expo-image';
+import {Link} from 'expo-router';
+import _ from 'lodash';
 import React, {useEffect, useState} from 'react';
-import {Page, Text} from '@/components';
-import {supabase} from '@/services/supabase';
 import {
   ActivityIndicator,
   Alert,
@@ -9,12 +11,11 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import {Image} from 'expo-image';
-import {Octicons} from '@expo/vector-icons';
-import {colors} from '@/styles/theme';
-import {Link} from 'expo-router';
+
+import {Page, Text} from '@/components';
 import {useAppSelector} from '@/hooks';
-import _ from 'lodash';
+import {supabase} from '@/services/supabase';
+import {colors} from '@/styles/theme';
 
 const Home = () => {
   const {session} = useAppSelector(state => state.session);
@@ -148,7 +149,7 @@ const Home = () => {
 
     if (movieGenres) {
       try {
-        let map: Map<
+        const map: Map<
           number,
           | {
               id: any;
@@ -356,7 +357,8 @@ const Home = () => {
                     width: '90%',
                     height: 450,
                     borderRadius: 8,
-                  }}></View>
+                  }}
+                />
                 <View
                   style={{
                     backgroundColor: 'rgba(175, 175, 175, 0.7)',
@@ -364,7 +366,8 @@ const Home = () => {
                     height: 450,
                     borderRadius: 8,
                     marginTop: -436,
-                  }}></View>
+                  }}
+                />
                 {loadingDiscover ? (
                   <ActivityIndicator
                     size="large"
@@ -425,7 +428,7 @@ const Home = () => {
                       }
                     </Text>
                     <ScrollView
-                      horizontal={true}
+                      horizontal
                       showsHorizontalScrollIndicator={false}
                       style={{
                         paddingHorizontal: 0,
