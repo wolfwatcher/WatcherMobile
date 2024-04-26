@@ -75,3 +75,5 @@ a
 1src/components/RegisterSteps/favorite-content.tsx,b\3\b3ff4eedf24d9f8c428d1fc7923531c91008bce7
 Z
 *src/components/RegisterSteps/birthdate.tsx,c\8\c8dd1f4040cf623d678d0b1b42a339ade3262fdd
+@
+eslint.config.js,f\8\f870111cc602b3d3e10ac380e0d1de4b6d105c67
