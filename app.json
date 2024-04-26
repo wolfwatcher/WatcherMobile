@@ -1,4 +1,49 @@
 {
-  "name": "WatcherMobile",
-  "displayName": "Watcher"
+  "expo": {
+    "name": "WatcherMobile",
+    "slug": "watchers",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#141414"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.WatcherMobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#19181A"
+      },
+      "package": "com.WatcherMobile"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "scheme": "com.watchermobile",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "02e69dc3-a2cb-42ac-b5cd-b4a0f7b4a3a5"
+      }
+    },
+    "owner": "poulpyy"
+  }
 }

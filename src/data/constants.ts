@@ -1,4 +1,4 @@
-import {GenreItemType, TMDBMovieType, TMDBSerieType} from 'types';
+import {GenreItemType, TMDBMovieType, TMDBSerieType} from '@/types';
 
 export const GENRES: GenreItemType[] = [
   {genre: 'Action', emoji: '🎬'},

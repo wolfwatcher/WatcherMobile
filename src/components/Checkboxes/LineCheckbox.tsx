@@ -1,23 +1,27 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {colors} from 'styles/theme';
+import {colors} from '@/styles/theme';
 
 interface LineCheckboxProps extends ViewProps {
   text: string;
   onPress: () => void;
+  isChecked: boolean;
 }
 
-const LineCheckbox: FC<LineCheckboxProps> = ({text, onPress, ...props}) => {
-  const [isChecked, setIsChecked] = useState(false);
-
+const LineCheckbox: FC<LineCheckboxProps> = ({
+  style,
+  text,
+  onPress,
+  isChecked,
+  ...props
+}) => {
   const handlePress = () => {
-    setIsChecked(!isChecked);
     onPress();
   };
 
   return (
-    <View className="w-full bg-swan/30 rounded-lg px-4 py-3" {...props}>
+    <View style={[styles.view, style]} {...props}>
       <BouncyCheckbox
         text={text}
         fillColor={isChecked ? colors.success : colors.swan + '50'}
@@ -26,17 +30,26 @@ const LineCheckbox: FC<LineCheckboxProps> = ({text, onPress, ...props}) => {
         innerIconStyle={styles.iconStyle}
         textStyle={styles.textStyle}
         onPress={handlePress}
+        disableBuiltInState
+        isChecked={isChecked}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  view: {
+    width: '100%',
+    backgroundColor: colors.swan + '4D',
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
   iconStyle: {
     borderRadius: 5,
   },
   textStyle: {
-    color: colors.white,
+    color: 'white',
     textDecorationLine: 'none',
   },
 });

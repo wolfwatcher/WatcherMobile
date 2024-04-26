@@ -1,14 +1,23 @@
+import '@/../global.css';
 import React, {FC} from 'react';
-import {View, ViewProps} from 'react-native';
+import {StyleSheet, View, ViewProps} from 'react-native';
 
 interface PageProps extends ViewProps {}
 
-const Page: FC<PageProps> = ({children, ...props}) => {
+const Page: FC<PageProps> = ({style, children, ...props}) => {
   return (
-    <View className="flex-1 container px-6 " {...props}>
+    <View style={[styles.view, style]} {...props}>
       {children}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 24,
+  },
+});
 
 export default Page;

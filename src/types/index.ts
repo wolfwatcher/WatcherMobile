@@ -1,11 +1,6 @@
 import {FC} from 'react';
-import {NativeStackScreenProps} from 'react-native-screens/native-stack';
+import {RegisterStateType} from '@/store/states';
 // == Types ==
-
-export type RegisterStepType = {
-  name: keyof RegisterStackParamList;
-  component: FC<NativeStackScreenProps<RegisterStackParamList, any>>;
-};
 
 // === API ===
 export type ApiError = {
@@ -56,37 +51,14 @@ export interface TMDBSerieType extends TMDBContentType {
   name: string;
 }
 
-// === Navigation ===
-// Stack
-export type AuthStackParamList = {
-  Login: undefined;
-  Register: undefined;
-};
+export interface RegisterStepPropsType {
+  onNext: ({}) => void;
+  progression: RegisterStateType;
+}
 
-export type RegisterStackParamList = {
-  BirthdateScreen: undefined;
-  FavoriteContentScreen: undefined;
-  FavoriteGenresScreen: undefined;
-  HatedGenresScreen: undefined;
-  FavoriteMoviesScreen: undefined;
-  FavoriteSeriesScreen: undefined;
-  SubscriptionsScreen: undefined;
-  CinemaRecommendationsScreen: undefined;
-  PersonalInfosScreen: undefined;
-};
-
-// Params
-export type LoginParams = {
-  email: string;
-  password: string;
-};
-
-// Props
-
-// === Redux ===
-export type RegisterStateType = {
-  progression: {
-    steps: number;
-    step: number;
-  };
+export const AuthError = {
+  invalidLogin: {
+    apiMessage: 'Invalid login credentials',
+    translated: 'Vos indentifiants sont incorrects.',
+  },
 };

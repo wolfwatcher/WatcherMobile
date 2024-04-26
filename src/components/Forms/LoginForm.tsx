@@ -1,16 +1,21 @@
+import '@/../global.css';
+
 import React, {FC, useState} from 'react';
-import {Button, Link, Text, TextInput} from 'components';
-import {Alert, View, ViewProps} from 'react-native';
-import {useAppDispatch} from 'hooks';
-import {login} from 'store/slices/authSlice';
-import {useNavigation} from '@react-navigation/native';
-import {supabase} from 'services/supabase.ts';
+import {Button, Link, Text, TextInput} from '@/components';
+import {Alert, StyleSheet, View, ViewProps} from 'react-native';
+import {useAppDispatch, useAppSelector} from '@/hooks';
+import {login} from '@/store/slices/authSlice';
+import {supabase} from '@/services';
+import {useRouter} from 'expo-router';
+import {AuthError} from '@/types';
+import {initialState, progress} from '@/store/slices/registerSlice';
 
 interface LoginFormProps extends ViewProps {}
 
 const LoginForm: FC<LoginFormProps> = ({...props}) => {
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
+  const progression = useAppSelector(state => state.register);
+  const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +26,9 @@ const LoginForm: FC<LoginFormProps> = ({...props}) => {
       password: password,
     });
     if (error) {
-      Alert.alert(error.message);
+      if (error.message === AuthError.invalidLogin.apiMessage)
+        Alert.alert(AuthError.invalidLogin.translated);
+
       return;
     }
 
@@ -31,37 +38,77 @@ const LoginForm: FC<LoginFormProps> = ({...props}) => {
         refreshToken: data.session?.refresh_token,
       }),
     );
+
+    router.replace('/(app)/home');
   };
 
   const handleRegister = () => {
-    navigation.navigate('Register');
+    if (progression.step === 0) {
+      router.navigate('/register');
+      return;
+    }
+    // ask user if they want to continue their profile creation
+    Alert.alert('Souhaites-tu reprendre ton inscription ?', '', [
+      {
+        text: 'Oui',
+        onPress: () => router.navigate('/register'),
+      },
+      {
+        text: 'Non',
+        onPress: () => {
+          dispatch(progress(initialState));
+          router.navigate('/register');
+        },
+      },
+    ]);
   };
 
   return (
-    <View className="w-full" {...props}>
-      <Text className="font-avenir-black mb-2">Adresse mail</Text>
+    <View
+      style={{
+        width: '100%',
+      }}
+      {...props}
+    >
+      <Text style={styles.label}>Adresse mail</Text>
       <TextInput
-        className="mb-4 p-2"
+        style={styles.textInput}
         placeholder="Adresse mail"
         value={email}
         onChangeText={text => setEmail(text)}
         autoCapitalize={'none'}
       />
-      <Text className="font-avenir-black mb-2">Mot de passe</Text>
+      <Text style={styles.label}>Mot de passe</Text>
       <TextInput
-        className="mb-4 p-2"
+        style={styles.textInput}
         placeholder="Mot de passe"
         secureTextEntry
         onChangeText={text => setPassword(text)}
         value={password}
         autoCapitalize={'none'}
       />
-      <Button className="mb-4" variant="primary" onPress={handleLogin}>
+      <Button
+        style={{
+          marginBottom: 16,
+        }}
+        variant="primary"
+        onPress={handleLogin}
+      >
         <Text>Connexion</Text>
       </Button>
       <Link onPress={handleRegister}>Créer un compte</Link>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  label: {
+    fontFamily: 'avenir-black',
+    marginBottom: 8,
+  },
+  textInput: {
+    marginBottom: 16,
+  },
+});
 
 export default LoginForm;

@@ -1,27 +1,31 @@
 import {createSlice} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer} from 'redux-persist';
-import {RegisterStateType} from 'types';
-import {registerSteps} from 'routes/RegisterStack.tsx';
+import {RegisterStateType} from '@/store/states';
 
-const initialState: RegisterStateType = {
-  progression: {
-    steps: registerSteps.length,
-    step: 0,
-  },
+export const initialState: RegisterStateType = {
+  step: 0,
+  birthdate: new Date().toISOString().split('T')[0],
+  favoriteContent: [],
+  favoriteGenres: [],
+  hatedGenres: [],
+  favoriteMovies: [],
+  favoriteSeries: [],
+  subscriptions: [],
+  onlySubscriptions: false,
+  withRecommendations: false,
 };
 
 const registerSlice = createSlice({
   name: 'register',
   initialState,
   reducers: {
-    progress: (state, action) => ({
-      ...state,
-      progression: {
-        ...state.progression,
+    progress: (state, action) => {
+      return {
+        ...state,
         ...action.payload,
-      },
-    }),
+      };
+    },
   },
 });
 

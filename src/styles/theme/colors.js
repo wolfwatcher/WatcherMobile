@@ -9,4 +9,8 @@ module.exports = {
   success: '#73B45D',
   info: '#00B2FF',
   warning: '#E7A422',
+  card: '#AFAFAF',
+  text: '#FAFAFA',
+  border: '#666666',
+  notification: '#6417BD',
 };

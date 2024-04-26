@@ -2,12 +2,15 @@
 const {colors, fonts} = require('./src/styles/theme');
 
 module.exports = {
-  content: ['./App.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
-  theme: {
-    extend: {
-      colors,
-      fontFamily: fonts,
+    content: [
+        './src/components/**/*.{js,jsx,ts,tsx}',
+        './app/**/*.{js,jsx,ts,tsx}'],
+    presets: [require("nativewind/preset")],
+    theme: {
+        extend: {
+            colors,
+            fontFamily: fonts
+        },
     },
-  },
-  plugins: [],
+    plugins: [],
 };

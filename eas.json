@@ -1,0 +1,28 @@
+{
+  "build": {
+    "preview": {
+      "env": {
+        "EXPO_PUBLIC_TMDB_ACCESS_TOKEN": "token",
+        "EXPO_PUBLIC_TMDB_POSTER_URL": "posterUrl",
+        "EXPO_PUBLIC_SUPABASE_URL": "supabaseUrl",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "supabaseKey",
+        "EXPO_PUBLIC_GOOGLE_CLOUD_CLIENT": "gcloud"
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+    },
+    "preview4": {
+      "distribution": "internal"
+    },
+    "production": {}
+  }
+}

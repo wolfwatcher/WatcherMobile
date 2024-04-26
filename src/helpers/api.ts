@@ -5,9 +5,8 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import Config from 'react-native-config';
-import {store} from 'store';
-import {ApiError} from 'types';
+import {ApiError} from '@/types';
+import {useAppSelector} from '@/hooks';
 
 enum StatusCode {
   Unauthorized = 401,
@@ -16,22 +15,22 @@ enum StatusCode {
   InternalServerError = 500,
 }
 
-const defaultOptions: Partial<AxiosRequestConfig> = {
-  baseURL: Config.API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  timeout: 10000,
-};
-
-const injectToken = (
+export const injectToken = (
   config: InternalAxiosRequestConfig,
 ): InternalAxiosRequestConfig => {
-  const token = store.getState().auth.token;
+  const {token} = useAppSelector(state => state.auth);
   if (token !== null) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
+};
+
+const defaultOptions: Partial<AxiosRequestConfig> = {
+  baseURL: process.env.API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  timeout: 10000,
 };
 
 class ApiClient {

@@ -1,5 +1,10 @@
+import '@/../global.css';
 import React, {FC} from 'react';
-import {Text as RNText, TextProps as RNTextProps} from 'react-native';
+import {
+  StyleSheet,
+  Text as RNText,
+  TextProps as RNTextProps,
+} from 'react-native';
 
 interface TextProps extends RNTextProps {}
 
@@ -8,12 +13,19 @@ const variantStyles = {
   secondary: 'bg-white text-orca',
 };
 
-const Text: FC<TextProps> = ({children, ...props}) => {
+const Text: FC<TextProps> = ({style, children, ...props}) => {
   return (
-    <RNText className={'font-avenir text-white'} {...props}>
+    <RNText style={[styles.text, style]} {...props}>
       {children}
     </RNText>
   );
 };
+
+const styles = StyleSheet.create({
+  text: {
+    fontFamily: 'avenir',
+    color: 'white',
+  },
+});
 
 export default Text;

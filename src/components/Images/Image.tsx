@@ -1,3 +1,4 @@
+import '@/../global.css'
 import React from 'react';
 import {Image as RNImage, ImageProps, StyleSheet} from 'react-native';
 

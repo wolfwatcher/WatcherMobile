@@ -1,17 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {persistReducer, PURGE} from 'redux-persist';
-import {login as loginRequest} from 'services/auth';
-
-type AuthState = {
-  token: string | null;
-  refreshToken: string | null;
-  loading: boolean;
-  error: {
-    code: string;
-    message: string;
-  } | null;
-};
+import {persistReducer} from 'redux-persist';
+import {AuthState} from '@/store/states';
 
 const initialState: AuthState = {
   token: null,
@@ -24,34 +14,38 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action) => ({
-      ...state,
-      token: action.payload.token,
-      refreshToken: action.payload.refreshToken,
-    }),
-    logout: () => initialState,
+    login: (state, action) => {
+      return {
+        ...state,
+        token: action.payload.token,
+        refreshToken: action.payload.refreshToken,
+      };
+    },
+    logout: () => {
+      return initialState;
+    },
   },
-  extraReducers: ({addCase}) => {
-    addCase(PURGE, () => initialState);
-
-    // AUTH/LOGIN
-    addCase(loginRequest.pending, () => ({
-      ...initialState,
-      loading: true,
-    })).addCase(loginRequest.fulfilled, (state, {payload}) => ({
-      ...state,
-      token: payload.token,
-      refreshToken: payload.refreshToken,
-      loading: false,
-      error: null,
-    }));
-
-    // TODO: Fix this
-    // .addCase(loginRequest.rejected, (state, {payload}) => ({
-    //   ...initialState,
-    //   error: payload,
-    // }));
-  },
+  // extraReducers: ({addCase}) => {
+  //   addCase(PURGE, () => initialState);
+  //
+  //   // AUTH/LOGIN
+  //   addCase(loginRequest.pending, () => ({
+  //     ...initialState,
+  //     loading: true,
+  //   })).addCase(loginRequest.fulfilled, (state, {payload}) => ({
+  //     ...state,
+  //     token: payload.token,
+  //     refreshToken: payload.refreshToken,
+  //     loading: false,
+  //     error: null,
+  //   }));
+  //
+  //   // TODO: Fix this
+  //   // .addCase(loginRequest.rejected, (state, {payload}) => ({
+  //   //   ...initialState,
+  //   //   error: payload,
+  //   // }));
+  // },
 });
 
 // TODO: Maybe use a secure storage library instead of AsyncStorage
