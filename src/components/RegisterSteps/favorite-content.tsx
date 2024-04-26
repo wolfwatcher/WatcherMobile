@@ -1,5 +1,8 @@
 import React, {FC, useState} from 'react';
-import {Button, LineCheckbox, Page, Text} from '@/components';
+import Page from '@/components/Pages/Page';
+import Button from '@/components/Buttons/Button';
+import Text from '@/components/Texts/Text';
+import LineCheckbox from '@/components/Checkboxes/LineCheckbox';
 import {StyleSheet, View} from 'react-native';
 import {FavoriteContentSvg} from '@/assets/images';
 import {RegisterStepPropsType} from '@/types';

@@ -1,5 +1,7 @@
 import React, {FC, useState} from 'react';
-import {Button, Page, Text} from '@/components';
+import Page from '@/components/Pages/Page';
+import Button from '@/components/Buttons/Button';
+import Text from '@/components/Texts/Text';
 import {StyleSheet} from 'react-native';
 import {OnboardingAgeSvg} from '@/assets/images';
 import CustomDatePicker from '@/components/Forms/CustomDatePicker';

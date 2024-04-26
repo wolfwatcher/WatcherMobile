@@ -2,26 +2,44 @@ import '../../global.css';
 import React, {useEffect, useState} from 'react';
 import {Page, Text} from '@/components';
 import {supabase} from '@/services/supabase';
-import {Alert, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {Image} from 'expo-image';
 import {Octicons} from '@expo/vector-icons';
 import {colors} from '@/styles/theme';
 import {Link} from 'expo-router';
 import {useAppSelector} from '@/hooks';
-import {TmdbSingleton} from '@/services/tmdb';
-import {Genres} from 'tmdb-ts/dist/endpoints';
-import {Genre, MovieDiscoverResult} from 'tmdb-ts';
+import _ from 'lodash';
 
 const Home = () => {
   const {session} = useAppSelector(state => state.session);
 
-  const [movies, setMovies] = useState<MovieDiscoverResult>();
+  const [movies, setMovies] = useState<any[]>();
   const [loadingDiscover, setLoadingDiscover] = useState(true);
   const [moviesByGenre, setMoviesByGenre] = useState(
-    new Map<number, MovieDiscoverResult>(),
+    new Map<
+      number,
+      | {
+          id: any;
+          title: any;
+          genre_ids: any;
+          poster_path: any;
+          budget: any;
+          vote_count: any;
+          popularity: any;
+          release_date: any;
+        }[]
+      | undefined
+    >(),
   );
   const [loadingMoviesByGenre, setLoadingMoviesByGenre] = useState(true);
-  const [movieGenres, setMovieGenres] = useState<Genres>();
+  const [movieGenres, setMovieGenres] =
+    useState<{id: number; name: string}[]>();
   const [loadingMovieGenres, setLoadingMovieGenres] = useState(true);
   const [username, setUsername] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
@@ -31,51 +49,64 @@ const Home = () => {
     if (session) {
       getProfile();
     }
-  }, [session]);
+  }, []);
 
   useEffect(() => {
     getGenres();
     getDiscover();
-    //getMovies();
-  }, [loadingProfile]);
+  }, [session]);
 
   useEffect(() => {
     getMoviesByGenre();
-  }, [loadingMovieGenres]);
+  }, [movieGenres, movies]);
 
-  /*const getMovies = async () => {
-            try {
-              const {data, error, status} = await supabase
-                .from('movies')
-                .select(
-                  'imdb_id, title, popularity, vote_average, vote_count, genres, embedding',
-                )
-                .range(0, 25);
+  const getDatabaseMoviesByGenre = async (
+    genre_ids: number[],
+    year: string,
+    match_count: number,
+  ) => {
+    try {
+      const {data, error} = await supabase
+        .from('movies')
+        .select(
+          'id, title, genre_ids, poster_path, budget, vote_count, popularity, release_date',
+        )
+        .contains('genre_ids', genre_ids)
+        .gte('release_date', `${year}-01-01 00:00`)
+        .order('popularity', {ascending: false})
+        .order('vote_count', {ascending: false})
+        .limit(match_count);
 
-              if (error && status !== 406) {
-                throw error;
-              }
-
-              if (data) {
-                setMovies(data);
-              }
-            } catch (error) {
-              if (error instanceof Error) {
-                Alert.alert(error.message);
-              }
-            }
-          };*/
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert(error.message);
+      }
+    }
+  };
 
   const getDiscover = async () => {
     if (!session?.user) throw new Error('Aucune utilisateur dans la session !');
 
     try {
-      const data = await TmdbSingleton.client.discover.movie({
-        language: 'fr-FR',
-        include_adult: true,
-        include_video: true,
+      const movieResponse = await supabase
+        .from('movies')
+        .select('id, embedding, vote_count, popularity, release_date')
+        .gte('release_date', '2023-01-01 00:00')
+        .order('popularity', {ascending: false})
+        .order('vote_count', {ascending: false})
+        .limit(20);
+
+      const movie = _.sample(movieResponse.data);
+
+      const {data, error} = await supabase.rpc('get_related_movie', {
+        embedding: movie?.embedding,
+        movie_id: movie?.id,
+        match_count: 3,
       });
 
+      if (error) throw error;
       if (data) {
         setMovies(data);
       }
@@ -89,14 +120,19 @@ const Home = () => {
   };
 
   const getGenres = async () => {
-    if (!session?.user) throw new Error('Aucune utilisateur dans la session !');
+    if (!session?.user) throw new Error('Aucun utilisateur dans la session !');
 
     try {
-      const data = await TmdbSingleton.client.genres.movies({
-        language: 'fr',
-      });
+      const {data, error, status} = await supabase
+        .from('genres')
+        .select('id, name');
+
       if (data) {
-        setMovieGenres(data);
+        const randomData: {id: number; name: string}[] = _.sampleSize(data, 3);
+        setMovieGenres(randomData);
+      }
+      if (error) {
+        throw error;
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -112,17 +148,23 @@ const Home = () => {
 
     if (movieGenres) {
       try {
-        let map = new Map();
+        let map: Map<
+          number,
+          | {
+              id: any;
+              title: any;
+              genre_ids: any;
+              poster_path: any;
+              budget: any;
+              vote_count: any;
+              popularity: any;
+              release_date: any;
+            }[]
+          | undefined
+        > = new Map();
         await Promise.all(
-          movieGenres.genres.map(async genre => {
-            const data = await TmdbSingleton.client.discover.movie({
-              language: 'fr-FR',
-              include_adult: true,
-              include_video: true,
-              sort_by: 'popularity.desc',
-              with_genres: `${genre.id}`,
-              page: 1,
-            });
+          movieGenres.map(async genre => {
+            const data = await getDatabaseMoviesByGenre([genre.id], '2023', 10);
 
             if (data) {
               map.set(genre.id, data);
@@ -324,7 +366,18 @@ const Home = () => {
                     marginTop: -436,
                   }}></View>
                 {loadingDiscover ? (
-                  <Text>Loading Discover...</Text>
+                  <ActivityIndicator
+                    size="large"
+                    color={colors.orca}
+                    style={{
+                      width: '100%',
+                      height: 450,
+                      borderWidth: 1,
+                      borderRadius: 8,
+                      borderColor: 'white',
+                      marginTop: -436,
+                    }}
+                  />
                 ) : (
                   <Image
                     style={{
@@ -337,7 +390,7 @@ const Home = () => {
                     }}
                     source={
                       process.env.EXPO_PUBLIC_TMDB_POSTER_URL +
-                      movies?.results[0]?.poster_path!
+                      _.sample(movies)?.poster_path
                     }
                     contentFit="cover"
                     transition={1000}
@@ -348,69 +401,65 @@ const Home = () => {
             {loadingMovieGenres ? (
               <Text>Loading Genres...</Text>
             ) : (
-              Array.from(moviesByGenre)
-                .slice(0, 3)
-                .map(([genreId, movies], index) => {
-                  return (
-                    <View
+              Array.from(moviesByGenre).map(([genreId, movies], index) => {
+                return (
+                  <View
+                    style={{
+                      flex: 1,
+                      paddingVertical: 8,
+                      alignSelf: 'flex-start',
+                      gap: 12,
+                      marginBottom:
+                        index === Array.from(moviesByGenre).length - 1 ? 32 : 0,
+                    }}
+                    key={genreId}>
+                    <Text
                       style={{
-                        flex: 1,
-                        paddingVertical: 8,
-                        alignSelf: 'flex-start',
-                        gap: 12,
-                        marginBottom:
-                          index ===
-                          Array.from(moviesByGenre).slice(0, 3).length - 1
-                            ? 32
-                            : 0,
-                      }}
-                      key={genreId}>
-                      <Text
-                        style={{
-                          fontFamily: 'avenir-black',
-                          fontSize: 24,
-                        }}>
-                        {
-                          movieGenres?.genres.find(genre => genre.id == genreId)
-                            ?.name
-                        }
-                      </Text>
-                      <ScrollView
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        style={{
-                          paddingHorizontal: 0,
-                          flexGrow: 1,
-                        }}>
-                        {loadingMoviesByGenre ? (
-                          <Text>Loading MovieByGenre...</Text>
-                        ) : (
-                          movies.results.map((movie, key) => {
-                            return (
-                              <Image
-                                key={key}
-                                style={{
-                                  width: 125,
-                                  height: 175,
-                                  borderWidth: 1,
-                                  borderRadius: 8,
-                                  borderColor: 'white',
-                                  marginRight: 32,
-                                }}
-                                source={
-                                  process.env.EXPO_PUBLIC_TMDB_POSTER_URL +
-                                  movie?.poster_path
-                                }
-                                contentFit="cover"
-                                transition={500}
-                              />
-                            );
-                          })
-                        )}
-                      </ScrollView>
-                    </View>
-                  );
-                })
+                        fontFamily: 'avenir-black',
+                        fontSize: 24,
+                      }}>
+                      {
+                        movieGenres?.find(
+                          movieGenre => movieGenre.id === genreId,
+                        )?.name
+                      }
+                    </Text>
+                    <ScrollView
+                      horizontal={true}
+                      showsHorizontalScrollIndicator={false}
+                      style={{
+                        paddingHorizontal: 0,
+                        flexGrow: 1,
+                      }}>
+                      {loadingMoviesByGenre ? (
+                        <Text>Loading MovieByGenre...</Text>
+                      ) : (
+                        movies?.map((movie, key) => {
+                          return (
+                            <Image
+                              key={key}
+                              style={{
+                                width: 125,
+                                height: 175,
+                                borderWidth: 1,
+                                borderRadius: 8,
+                                borderColor: 'white',
+                                marginRight: 32,
+                              }}
+                              source={
+                                process.env.EXPO_PUBLIC_TMDB_POSTER_URL +
+                                movie?.poster_path
+                              }
+                              contentFit="cover"
+                              transition={500}
+                            />
+                          );
+                        })
+                      )}
+                    </ScrollView>
+                  </View>
+                );
+              })
             )}
           </ScrollView>
         )}
