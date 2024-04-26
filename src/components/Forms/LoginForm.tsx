@@ -68,7 +68,8 @@ const LoginForm: FC<LoginFormProps> = ({...props}) => {
       style={{
         width: '100%',
       }}
-      {...props}>
+      {...props}
+    >
       <Text style={styles.label}>Adresse mail</Text>
       <TextInput
         style={styles.textInput}
@@ -91,7 +92,8 @@ const LoginForm: FC<LoginFormProps> = ({...props}) => {
           marginBottom: 16,
         }}
         variant="primary"
-        onPress={handleLogin}>
+        onPress={handleLogin}
+      >
         <Text>Connexion</Text>
       </Button>
       <Link onPress={handleRegister}>Créer un compte</Link>

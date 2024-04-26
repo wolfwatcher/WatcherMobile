@@ -7,9 +7,17 @@ const AuthLayout = () => {
       screenOptions={{
         gestureEnabled: true,
         headerShown: false,
-      }}>
+      }}
+    >
       <Stack.Screen name="login" options={{headerShown: false}} />
       <Stack.Screen name="register" options={{headerShown: false}} />
+      <Stack.Screen
+        name="modal"
+        options={{
+          // Set the presentation mode to modal for our modal route.
+          presentation: 'modal',
+        }}
+      />
     </Stack>
   );
 };

@@ -26,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#19181A"
-      }
+      },
+      "package": "com.WatcherMobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"

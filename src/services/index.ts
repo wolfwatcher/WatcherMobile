@@ -1,2 +1,2 @@
 export {supabase} from './supabase';
-export {tmdb} from './tmdb';
+export {TmdbSingleton} from './tmdb';

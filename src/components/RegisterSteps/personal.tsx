@@ -7,11 +7,14 @@ import {PersonalInfosSvg} from '@/assets/images';
 import {AppleIcon, FacebookIcon, GoogleIcon} from '@/assets/icons';
 import MailIcon from '@/assets/icons/MailIcon';
 import {RegisterStepPropsType} from '@/types';
+import {useRouter} from 'expo-router';
 
 const Personal: FC<RegisterStepPropsType> = ({onNext}) => {
+  const router = useRouter();
   const handleNext = (choice: string) => {
     // TODO Logic
     if (choice === 'mail') {
+      router.push('/modal');
     } else if (choice === 'apple') {
     } else if (choice === 'google') {
     } else if (choice === 'facebook') {
